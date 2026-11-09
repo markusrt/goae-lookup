@@ -27,7 +27,7 @@ DEFAULT_DB = ROOT / "data" / "goae.db"
 
 PUNKTWERT_EUR = 0.0582873  # § 5 Abs. 1 GOÄ: 5,82873 Cent
 
-CODE_RE = re.compile(r"^(\d{1,4}[a-z]?|[A-K](?: ?\d)?)$")
+CODE_RE = re.compile(r"^(\d{1,4}[a-z]?(?:\.H\d?)?|[A-K](?: ?\d)?)$")  # 250a, 3541.H, 3562.H1, K 1
 ROMAN_RE = re.compile(r"^(?:[IVX]+)\.")
 LETTER_SECTION_RE = re.compile(r"^([A-P])\.\s*(.*)$")
 NUM_TOKEN_RE = re.compile(r"\b(\d{1,4}[a-z]?)\b")
@@ -53,7 +53,7 @@ class Entry:
 
 def code_key(code: str) -> tuple[int, str]:
     """Numeric sort key for codes like '250a'; letters sort as -1."""
-    m = re.match(r"^(\d+)([a-z]?)$", code)
+    m = re.match(r"^(\d+)([a-z]?(?:\.H\d?)?)$", code)
     if m:
         return int(m.group(1)), m.group(2)
     return -1, code
@@ -222,11 +222,26 @@ def parse(source: Path = DEFAULT_SOURCE):
     for t in pending_text:
         rules.append({"text": t, "next_seq": None})
 
-    _assign_sections(entries, overview)
-    return entries, rules, overview, a_list_text
+    assign_sections(entries, overview)
+    by_seq = {e.seq: e for e in entries}
+    resolved = []
+    for r in rules:
+        text = r["text"]
+        if (text in ("Allgemeine Bestimmungen",) or re.match(r"^[A-P]\. ", text)
+                or text.startswith(("#", "(Fundstelle", "Für die nachfolgend genannten"))):
+            continue
+        nxt = by_seq.get(r["next_seq"]) if r["next_seq"] else None
+        resolved.append({"text": text, "section": nxt.section if nxt else "",
+                         "subsection": nxt.subsection if nxt else ""})
+    return entries, resolved, overview, a_list_text
 
 
-def _assign_sections(entries: list[Entry], overview: list[dict]) -> None:
+def base_code(code: str) -> str:
+    """Numeric code used for section lookup: 'A3754' (analog) -> '3754', '3832-3854' -> '3832'."""
+    return re.sub(r"^A(?=\d)", "", code).split("-")[0]
+
+
+def assign_sections(entries: list[Entry], overview: list[dict]) -> None:
     # main sections are labelled with a single letter, subsections with roman numerals
     sections, subs = [], []
     current_main = None
@@ -248,7 +263,7 @@ def _assign_sections(entries: list[Entry], overview: list[dict]) -> None:
             subs.append({**item, "main": current_main})
 
     def find(code: str, prev_numeric: int):
-        k, _ = code_key(code)
+        k, _ = code_key(base_code(code))
         main = sub = None
         if k >= 0:
             for s in sections:
@@ -283,7 +298,7 @@ def _assign_sections(entries: list[Entry], overview: list[dict]) -> None:
     prev_numeric = 0
     for e in entries:
         main, sub = find(e.code, prev_numeric)
-        k, _ = code_key(e.code)
+        k, _ = code_key(base_code(e.code))
         if k >= 0:
             prev_numeric = k
         if main:
@@ -359,11 +374,11 @@ CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
 """
 
 
-def build(db_path: Path = DEFAULT_DB, source: Path = DEFAULT_SOURCE) -> dict:
-    entries, rules, overview, a_list_text = parse(source)
+def write_db(db_path: Path, entries: list[Entry], rules: list[dict], a_list_text: str,
+             meta: dict) -> dict:
+    """Write entries (with their notes) and general rules into a fresh SQLite file."""
     codes = [e.code for e in entries]
     a_list = expand_numbers(a_list_text, codes)
-
     db_path.parent.mkdir(parents=True, exist_ok=True)
     tmp = db_path.with_suffix(".tmp")
     if tmp.exists():
@@ -371,12 +386,11 @@ def build(db_path: Path = DEFAULT_DB, source: Path = DEFAULT_SOURCE) -> dict:
     con = sqlite3.connect(tmp)
     con.executescript(SCHEMA)
     seen = set()
-    by_seq = {e.seq: e for e in entries}
     for e in entries:
         if e.code in seen:  # keep first occurrence
             continue
         seen.add(e.code)
-        k, suf = code_key(e.code)
+        k, suf = code_key(base_code(e.code))
         con.execute(
             "INSERT INTO ziffer VALUES (?,?,?,?,?,?,?,?,?,?,?)",
             (e.code, k, suf, e.seq, e.text, e.points, e.section, e.section_title,
@@ -391,27 +405,23 @@ def build(db_path: Path = DEFAULT_DB, source: Path = DEFAULT_SOURCE) -> dict:
             refs = expand_numbers(n, codes) | {e.code}
             con.executemany("INSERT INTO note_ref VALUES (?,?)", [(cur.lastrowid, c) for c in refs])
     for r in rules:
-        nxt = by_seq.get(r["next_seq"]) if r["next_seq"] else None
-        sec = nxt.section if nxt else ""
-        sub = nxt.subsection if nxt else ""
-        text = r["text"]
-        if (text in ("Allgemeine Bestimmungen",) or re.match(r"^[A-P]\. ", text)
-                or text.startswith(("#", "(Fundstelle", "Für die nachfolgend genannten"))):
-            continue
         cur = con.execute(
             "INSERT INTO note(code, section, subsection, kind, text) VALUES (NULL,?,?,?,?)",
-            (sec, sub, "rule", text))
-        refs = expand_numbers(text, codes)
+            (r["section"], r["subsection"], "rule", r["text"]))
+        refs = expand_numbers(r["text"], codes)
         con.executemany("INSERT INTO note_ref VALUES (?,?)", [(cur.lastrowid, c) for c in refs])
-    con.executemany("INSERT INTO meta VALUES (?,?)", [
-        ("source", str(source.name)),
-        ("punktwert_eur", str(PUNKTWERT_EUR)),
-        ("entries", str(len(seen))),
-    ])
+    meta = {**meta, "punktwert_eur": str(PUNKTWERT_EUR), "entries": str(len(seen))}
+    con.executemany("INSERT INTO meta VALUES (?,?)", list(meta.items()))
     con.commit()
     con.close()
     tmp.replace(db_path)
-    return {"entries": len(seen), "rules": len(rules), "sections": len(overview)}
+    return {"db": str(db_path), "entries": len(seen), "rules": len(rules)}
+
+
+def build(db_path: Path = DEFAULT_DB, source: Path = DEFAULT_SOURCE) -> dict:
+    """Build the database from the official GOÄ text."""
+    entries, rules, _overview, a_list_text = parse(source)
+    return write_db(db_path, entries, rules, a_list_text, {"source": source.name})
 
 
 if __name__ == "__main__":

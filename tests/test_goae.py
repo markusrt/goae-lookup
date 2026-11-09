@@ -158,5 +158,37 @@ class Fill(unittest.TestCase):
         self.assertEqual(len(FakeLLM.prompts) - n, 1)
 
 
+class AbrechnungsstelleAdapter(unittest.TestCase):
+    """Offline test of the site adapter against a hand-written fixture."""
+
+    def test_parse_and_build(self):
+        from goae.sources import abrechnungsstelle as src
+        fixture = ROOT / "tests" / "fixtures" / "abrechnungsstelle_sample.html"
+        entries = src.parse_pages([fixture])
+        by = {e.code: e for e in entries}
+        self.assertEqual(list(by), ["1", "2", "K 1", "3630.H", "A3754"])
+        self.assertEqual(by["1"].points, 80)
+        self.assertEqual(by["1"].text, "Beratung - auch mittels Fernsprecher")
+        self.assertIn("Nummern 2, 3", by["1"].notes[0])
+        self.assertIn("einer Inanspruchnahme des Arztes nicht zusammen mit anderen Gebühren", by["2"].notes[0])
+        self.assertEqual(len(by["2"].notes), 2)  # paragraph + generated exclusion sentence
+        self.assertFalse(any("Footer" in n for e in entries for n in e.notes))
+
+        orig = src.fetch_pages
+        src.fetch_pages = lambda refresh=False, pages=None: [fixture]
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                path = Path(d) / "site.db"
+                stats = src.build(path)
+                self.assertEqual(stats["entries"], 5)
+                self.assertIn("✗", db.check(["1", "2"], db_path=str(path)))
+                self.assertIn("✗", db.check(["1", "K 1"], db_path=str(path)))
+                self.assertIn("Fernsprecher", db.search("Telefon Beratung", db_path=str(path)))
+                self.assertIn("Höchstwert", db.get("3630h", db_path=str(path)))
+                db.connect.cache_clear()
+        finally:
+            src.fetch_pages = orig
+
+
 if __name__ == "__main__":
     unittest.main()

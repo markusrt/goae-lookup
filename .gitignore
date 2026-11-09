@@ -6,3 +6,5 @@ data/goae.tmp
 *.tmp
 *.goae.csv
 .venv/
+data/goae-*.db
+data/cache/

@@ -7,6 +7,7 @@ are only shown when asked for (progressive disclosure: search -> get -> rules).
 from __future__ import annotations
 
 import math
+import os
 import re
 import sqlite3
 from collections import Counter, defaultdict
@@ -52,8 +53,12 @@ DEFAULT = Profile()
 
 @lru_cache(maxsize=4)
 def connect(db_path: str | None = None) -> sqlite3.Connection:
-    path = Path(db_path) if db_path else DEFAULT_DB
+    """Open the database read-only. Path: argument, else $GOAE_DB, else data/goae.db
+    (built from the official text on first use)."""
+    path = Path(db_path or os.environ.get("GOAE_DB") or DEFAULT_DB)
     if not path.exists():
+        if path != DEFAULT_DB:
+            raise SystemExit(f"{path} not found - build it first (python -m goae build --help)")
         build(path)
     con = sqlite3.connect(f"file:{path}?mode=ro", uri=True, check_same_thread=False)
     con.row_factory = sqlite3.Row
@@ -67,9 +72,15 @@ def _all_rows(con):
 def normalize_code(code: str) -> str:
     code = code.strip().replace("Nr.", "").replace("nr.", "").strip()
     m = re.match(r"^([A-Ka-k])\s*(\d)?$", code)
-    if m:
+    if m:  # surcharges: 'k1' -> 'K 1'
         return m.group(1).upper() + (f" {m.group(2)}" if m.group(2) else "")
-    return code.lower()
+    m = re.match(r"^(\d{1,4})([a-g])?(?:\.?h(\d?))?$", code.lower())
+    if m:  # '250A' -> '250a', '3630h' / '3630.h' -> '3630.H'
+        return m.group(1) + (m.group(2) or "") + (f".H{m.group(3)}" if m.group(0).find("h") >= 0 else "")
+    m = re.match(r"^a\s*(\d{1,4})$", code.lower())
+    if m:  # analogue codes 'A 3754' -> 'A3754'
+        return f"A{m.group(1)}"
+    return code
 
 
 # ------------------------------------------------------------------- formatting
@@ -239,7 +250,13 @@ def search(q: str, k: int | None = None, section: str | None = None,
 # -------------------------------------------------------------------------- get
 
 def _row(con, code: str):
-    return con.execute("SELECT * FROM ziffer WHERE code=?", (normalize_code(code),)).fetchone()
+    c = normalize_code(code)
+    r = con.execute("SELECT * FROM ziffer WHERE code=?", (c,)).fetchone()
+    if r is None and re.fullmatch(r"\d{1,4}[a-g]?", c):
+        # '3562' also finds '3562.H1' (lab codes that count towards a Höchstwert)
+        r = con.execute("SELECT * FROM ziffer WHERE code LIKE ? ORDER BY code LIMIT 1",
+                        (c + ".H%",)).fetchone()
+    return r
 
 
 def get(code: str, db_path: str | None = None) -> str:

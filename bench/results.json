@@ -794,7 +794,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 1596
+     "out": 1176
     },
     "d16": {
      "split": "dev",
@@ -1000,10 +1000,10 @@
    "summary": {
     "dev": "17/23",
     "holdout": "13/17",
-    "avg_out": 541,
-    "max_out": 1596,
-    "avg_find_out": 693,
-    "session": 22205
+    "avg_out": 530,
+    "max_out": 1416,
+    "avg_find_out": 678,
+    "session": 21785
    },
    "id": "it1",
    "label": "Naive tools: verbose schema, JSON, k=10, full text + notes, BM25"
@@ -1914,7 +1914,7 @@
      "ok": false,
      "rank": null,
      "calls": 1,
-     "out": 49
+     "out": 57
     },
     "h07": {
      "split": "holdout",
@@ -1946,7 +1946,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 85
+     "out": 95
     },
     "h11": {
      "split": "holdout",
@@ -2011,7 +2011,7 @@
     "avg_out": 76,
     "max_out": 137,
     "avg_find_out": 88,
-    "session": 3614
+    "session": 3632
    },
    "id": "it4",
    "label": "Hybrid ranking: BM25 prefix + character-trigram TF-IDF (compounds)"
@@ -2250,7 +2250,7 @@
      "ok": false,
      "rank": null,
      "calls": 1,
-     "out": 49
+     "out": 57
     },
     "h07": {
      "split": "holdout",
@@ -2282,7 +2282,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 85
+     "out": 95
     },
     "h11": {
      "split": "holdout",
@@ -2346,8 +2346,8 @@
     "holdout": "12/17",
     "avg_out": 76,
     "max_out": 137,
-    "avg_find_out": 87,
-    "session": 3607
+    "avg_find_out": 88,
+    "session": 3625
    },
    "id": "it5",
    "label": "Synonym file for colloquial terms (derived from dev failures only)"
@@ -2586,7 +2586,7 @@
      "ok": false,
      "rank": null,
      "calls": 1,
-     "out": 49
+     "out": 57
     },
     "h07": {
      "split": "holdout",
@@ -2618,7 +2618,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 85
+     "out": 95
     },
     "h11": {
      "split": "holdout",
@@ -2680,10 +2680,10 @@
    "summary": {
     "dev": "23/23",
     "holdout": "12/17",
-    "avg_out": 85,
+    "avg_out": 86,
     "max_out": 162,
-    "avg_find_out": 87,
-    "session": 3658
+    "avg_find_out": 88,
+    "session": 3676
    },
    "id": "it6",
    "label": "Terse 4-tool schema, fees folded into goae_get"
@@ -3290,7 +3290,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 85
+     "out": 95
     },
     "h11": {
      "split": "holdout",
@@ -3354,8 +3354,8 @@
     "holdout": "17/17",
     "avg_out": 86,
     "max_out": 162,
-    "avg_find_out": 88,
-    "session": 3687
+    "avg_find_out": 89,
+    "session": 3697
    },
    "id": "it8",
    "label": "Post-hoc: 6 synonyms for the holdout misses (holdout no longer blind!)"
@@ -3626,7 +3626,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 85
+     "out": 95
     },
     "h11": {
      "split": "holdout",
@@ -3690,8 +3690,8 @@
     "holdout": "17/17",
     "avg_out": 86,
     "max_out": 162,
-    "avg_find_out": 88,
-    "session": 3687
+    "avg_find_out": 89,
+    "session": 3697
    },
    "id": "final",
    "label": "Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema)"
@@ -3699,8 +3699,8 @@
  ],
  "fill": {
   "rows": 12,
-  "agent_session_tool_tokens": 1340,
+  "agent_session_tool_tokens": 1350,
   "pipeline_max_prompt": 159,
-  "pipeline_avg_prompt": 140
+  "pipeline_avg_prompt": 141
  }
 }

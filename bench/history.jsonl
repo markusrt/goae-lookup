@@ -3,3 +3,4 @@
 {"when": "2026-11-09 19:02", "id": "final", "note": "post-hoc synonyms for holdout misses; dev-only level kept for it5-it7", "dev": "23/23", "holdout": "16/17", "avg_out": 85, "max_out": 162, "avg_find_out": 88, "session": 3644}
 {"when": "2026-11-09 19:03", "id": "final", "note": "lungenfunktion synonym without generic word 'Untersuchung'", "dev": "23/23", "holdout": "17/17", "avg_out": 86, "max_out": 162, "avg_find_out": 88, "session": 3665}
 {"when": "2026-11-09 19:04", "id": "final", "note": "check: grouped output, surcharges allowed next to their base codes; synonym krankschreibung", "dev": "23/23", "holdout": "17/17", "avg_out": 86, "max_out": 162, "avg_find_out": 88, "session": 3687}
+{"when": "2026-11-09 20:25", "id": "final", "note": "parser: 67 Höchstwert codes (3541.H …) were missing; codes like 3562 resolve to 3562.H1", "dev": "23/23", "holdout": "17/17", "avg_out": 86, "max_out": 162, "avg_find_out": 89, "session": 3697}

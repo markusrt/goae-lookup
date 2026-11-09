@@ -119,21 +119,79 @@ Claude Code / Claude Desktop / most other clients (`.mcp.json`):
 
 **Python.** `from goae import db; db.search("Hausbesuch")`.
 
-## Completing a table: use a pipeline, not a conversation
+## Completing a table: move the loop out of the conversation
 
-```bash
-# candidates only (no LLM): adds a goae_candidates column for review
-python -m goae fill examples/leistungen.csv
+**What goes wrong today.** When an agent completes a table inside one chat, every row
+adds a search call *and its result* to the conversation, and nothing is ever removed:
 
-# with a local model via any OpenAI-compatible endpoint (Ollama, llama.cpp, LM Studio, vLLM)
-python -m goae fill examples/leistungen.csv --llm http://localhost:11434/v1 --model qwen2.5:7b-instruct
+```text
+system prompt + tool definitions
+row 1  → tool call → result 1      ┐
+row 2  → tool call → result 2      │  the conversation grows with every row;
+…                                  │  after a few dozen rows the window is full and
+row 30 → tool call → result 30     ┘  the model loses track of what it already found
 ```
 
-Each row gets a prompt of ~140 tokens (row + 5 candidates) and must answer with JSON.
-A code outside the candidate list, or below `--min-confidence`, is left empty for human
-review. If you prefer to stay inside your agent: let it call `goae_search` per row and
-write each result into the file straight away — but a script loop is more robust,
-especially with small local models.
+Smaller tool results (the rest of this repo) slow this down by a factor of 10–15, but the
+growth is still linear. For a table of hundreds of rows it will eventually overflow.
+
+**The fix: one small, independent LLM call per row.** A plain script walks through the
+table. For each row it does the lookup itself, asks the model one short question, and
+writes the answer straight into the output file. The model never sees the other rows,
+and the progress is stored in the file, not in a conversation:
+
+```text
+for each row in leistungen.csv:
+    candidates = goae search(row)        # SQLite, no LLM, ~90 tokens
+    prompt     = row + candidates        # ~140 tokens, always the same size
+    answer     = LLM(prompt)             # fresh call, no chat history
+    write answer to leistungen.goae.csv  # the file is the memory
+```
+
+**One row, end to end.** Input row `Ruhe-EKG`. The prompt the model receives is the
+complete context, nothing else:
+
+```text
+Wähle die passende GOÄ-Ziffer für die Leistung.
+Leistung: Ruhe-EKG
+Kandidaten (Ziffer|Punkte|Text):
+651|253P|Elektrokardiographische Untersuchung in Ruhe - auch gegebenenfalls nach…
+650|152P|Elektrokardiographische Untersuchung zur Feststellung einer Rhythmusstörung…
+653|253P|Elektrokardiographische Untersuchung auf telemetrischem Wege
+659|400P|Elektrokardiographische Untersuchung über mindestens 18 Stunden (Langzeit-EKG)…
+5422|1000P|Szintigraphische Untersuchung des Myokards mit myokardaffinen Tracern in Ruhe…
+Antworte nur mit JSON: {"code": "<Ziffer oder leer>", "confidence": <0..1>}
+```
+
+The model answers e.g. `{"code": "651", "confidence": 0.9}`, and the script adds three
+columns to that row of the output file:
+
+| leistung | … | goae | goae_confidence | goae_candidates |
+|---|---|---|---|---|
+| Ruhe-EKG | … | 651 | 0.90 | 651 650 653 659 5422 |
+
+Safety rails: an answer that is not one of the candidates, or below `--min-confidence`,
+leaves `goae` empty so a human can decide. If the run is interrupted, starting it again
+skips the rows that are already done.
+
+**Three ways to use it**
+
+```bash
+# 1. Candidates only, no LLM: a person picks from goae_candidates (e.g. in Excel)
+python -m goae fill examples/leistungen.csv
+
+# 2. Fully automatic with a local model (any OpenAI-compatible endpoint:
+#    Ollama, llama.cpp server, LM Studio, vLLM)
+python -m goae fill examples/leistungen.csv --llm http://localhost:11434/v1 --model qwen2.5:7b-instruct
+
+# 3. Options: which column holds the description, how many candidates
+python -m goae fill my.csv --col Leistungsbeschreibung -k 5 -o my.done.csv
+```
+
+If you would rather keep the agent in charge, give it the same rule: process one row at a
+time with `goae_search`, write the result into the file immediately, and do not collect
+results in the conversation. That works, but small local models are noticeably more
+reliable with the script.
 
 ## The measurement loop
 
@@ -155,6 +213,34 @@ To improve recall for your own wording, add a line to
 [`data/synonyms.tsv`](data/synonyms.tsv) (`colloquial<TAB>official wording`), add a task
 to `bench/tasks.json`, and rerun the benchmark.
 
+## Other sources: abrechnungsstelle.com
+
+The original question used <https://abrechnungsstelle.com/goae/ziffern/>, which adds
+analogue codes and exclusion lists per code. `goae/sources/abrechnungsstelle.py` shows
+how to ingest such a site **without putting its content into this repository**: the data
+is downloaded on your machine when you build.
+
+```bash
+python -m goae build --source abrechnungsstelle      # → data/goae-abrechnungsstelle.db
+python -m goae --db data/goae-abrechnungsstelle.db search "Ruhe-EKG"
+export GOAE_DB=data/goae-abrechnungsstelle.db        # same for the MCP server / agents
+```
+
+* Downloads 14 range pages once (robots.txt is checked, one request every 3 s), caches
+  the raw HTML in `data/cache/` and writes a separate database. `data/cache/` and the
+  database are git-ignored. `--refresh` downloads again.
+* Per code it takes the service text, points, the notes and the *Ausschlussziffern*.
+  The exclusion lists are turned into rule sentences, so `goae check` uses them too.
+  Section structure, § 5 factors and general rules still come from the official text.
+* The parser is tested offline against a hand-written fixture that mimics the page
+  markup (`tests/fixtures/`). If the site changes its layout,
+  `python -m goae.sources.abrechnungsstelle --debug 1-498` shows what the parser sees.
+* Check the site's terms before you use the data beyond your own purposes.
+
+The same pattern works for any other source: produce `Entry` objects (code, text,
+points, notes) and call `ingest.write_db`. Search, tools, MCP server and the benchmark
+stay unchanged.
+
 ## Data and limitations
 
 * Source: the official GOÄ text (BGBl. I 1996, last amended 21.10.2019), via the
@@ -162,10 +248,9 @@ to `bench/tasks.json`, and rerun the benchmark.
   [bundestag/gesetze](https://github.com/bundestag/gesetze) (`g/goae_1982/index.md`,
   Unlicense). German statutes are official works without copyright (§ 5 UrhG). A copy is
   in [`data/source/`](data/source/).
-* Not included: analogue codes (BÄK Analogbewertungen), commentary, case law, the
-  planned new GOÄ. The page the original question referred to
-  (abrechnungsstelle.com) contains such commentary; the same pattern applies if you
-  parse it into the schema in `goae/ingest.py`.
+* Not included in the official text: analogue codes (BÄK Analogbewertungen),
+  commentary, case law, the planned new GOÄ. For analogue codes see the
+  abrechnungsstelle.com adapter above.
 * `check` only evaluates explicit "nicht neben" / "nur … im Zusammenhang mit" rules.
   Frequency limits ("im Behandlungsfall nur einmal") are shown via `get`/`rules`, not
   enforced.
@@ -179,10 +264,11 @@ goae/db.py          search / get / price / check / rules, all returning short te
 goae/tools.py       tool definitions (terse set + the verbose set used as baseline)
 goae/mcp_server.py  MCP over stdio, no dependencies
 goae/fill.py        table pipeline with optional OpenAI-compatible LLM
+goae/sources/       optional adapters for other sources (abrechnungsstelle.com)
 goae/__main__.py    CLI
 bench/              tasks, benchmark loop, results, history
-data/               source text, synonyms; goae.db is generated
-tests/              unittest suite (python -m unittest discover -s tests)
+data/               source text, synonyms; databases and cache are generated
+tests/              unittest suite (python -m unittest discover -s tests), HTML fixture
 ```
 
 ## License

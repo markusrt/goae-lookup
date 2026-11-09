@@ -8,23 +8,23 @@ Tasks: 23 dev (may be tuned on) + 17 holdout (not tuned on before it8), see [`be
 |---|---|---|---|---|---|---|---|---|---|
 | it0a | Baseline: whole fee schedule in the prompt | 23/23 | 17/17 | – | 136,999 | 136,999 | 136,999 | 136,999 | **no** |
 | it0b | Baseline: generic docs RAG, top-5 chunks | 12/23 | 5/17 | – | 1,235 | 1,155 | 1,831 | 49,389 | **no** |
-| it1 | Naive tools: verbose schema, JSON, k=10, full text + notes, BM25 | 17/23 | 13/17 | 583 | 541 | 693 | 1,596 | 22,205 | yes |
+| it1 | Naive tools: verbose schema, JSON, k=10, full text + notes, BM25 | 17/23 | 13/17 | 583 | 530 | 678 | 1,416 | 21,785 | yes |
 | it2 | Line format 'code\|points\|text' instead of JSON, notes only via get | 17/23 | 13/17 | 583 | 134 | 171 | 427 | 5,942 | yes |
 | it3 | Truncate text to 80 chars, k=5 | 15/23 | 11/17 | 583 | 57 | 62 | 137 | 2,881 | yes |
-| it4 | Hybrid ranking: BM25 prefix + character-trigram TF-IDF (compounds) | 19/23 | 12/17 | 583 | 76 | 88 | 137 | 3,614 | yes |
-| it5 | Synonym file for colloquial terms (derived from dev failures only) | 23/23 | 12/17 | 583 | 76 | 87 | 137 | 3,607 | yes |
-| it6 | Terse 4-tool schema, fees folded into goae_get | 23/23 | 12/17 | 245 | 85 | 87 | 162 | 3,658 | yes |
+| it4 | Hybrid ranking: BM25 prefix + character-trigram TF-IDF (compounds) | 19/23 | 12/17 | 583 | 76 | 88 | 137 | 3,632 | yes |
+| it5 | Synonym file for colloquial terms (derived from dev failures only) | 23/23 | 12/17 | 583 | 76 | 88 | 137 | 3,625 | yes |
+| it6 | Terse 4-tool schema, fees folded into goae_get | 23/23 | 12/17 | 245 | 86 | 88 | 162 | 3,676 | yes |
 | it7 | Probe: k=3, text 60 chars | 23/23 | 12/17 | 245 | 55 | 45 | 162 | 2,463 | yes |
-| it8 | Post-hoc: 6 synonyms for the holdout misses (holdout no longer blind!) | 23/23 | 17/17 | 245 | 86 | 88 | 162 | 3,687 | yes |
-| final | Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema) | 23/23 | 17/17 | 245 | 86 | 88 | 162 | 3,687 | yes |
+| it8 | Post-hoc: 6 synonyms for the holdout misses (holdout no longer blind!) | 23/23 | 17/17 | 245 | 86 | 89 | 162 | 3,697 | yes |
+| final | Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema) | 23/23 | 17/17 | 245 | 86 | 89 | 162 | 3,697 | yes |
 
 **Takeaways**
 
-* One search costs ~88 tokens instead of ~1,155 (RAG chunks) or ~693 (naive JSON tool).
-* All 40 tasks in one conversation: 3,687 tokens — 13x less than RAG, 6x less than the naive tool. (The agent's own system prompt comes on top of this.)
+* One search costs ~89 tokens instead of ~1,155 (RAG chunks) or ~678 (naive JSON tool).
+* All 40 tasks in one conversation: 3,697 tokens — 13x less than RAG, 6x less than the naive tool. (The agent's own system prompt comes on top of this.)
 * Output format and truncation (it1→it3) save the most tokens; ranking and synonyms (it4→it5) win back the recall that truncation and a small k cost.
 * Blind holdout accuracy was 12/17 — the misses were colloquial terms (Blutzucker, MRT, Lungenfunktion, …). it8 shows the fix: one line per term in `data/synonyms.tsv`. Expect the same with new data: extend the synonym file.
-* k=3 (it7) would save another ~43 tokens per search, but two holdout hits already sit at rank 3, right at the edge; k=5 keeps headroom for unseen wording.
+* k=3 (it7) would save another ~44 tokens per search, but two holdout hits already sit at rank 3, right at the edge; k=5 keeps headroom for unseen wording.
 
 Notes on the baselines: *it0a* is always 'correct' because everything is in the prompt, but it does not fit a 32K (or 64K) window at all. *it0b* counts a hit when the right entry is somewhere in the returned chunks; the model would still have to read and compute (fees, exclusions) itself. Schema size of a real docs server is not measured.
 
@@ -64,7 +64,7 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 | h07 | holdout | find | ✓ | 2 | 1 | 95 |
 | h08 | holdout | find | ✓ | 1 | 1 | 90 |
 | h09 | holdout | find | ✓ | 1 | 1 | 105 |
-| h10 | holdout | find | ✓ | 1 | 1 | 85 |
+| h10 | holdout | find | ✓ | 1 | 1 | 95 |
 | h11 | holdout | find | ✓ | 1 | 1 | 102 |
 | h12 | holdout | find | ✓ | 2 | 1 | 100 |
 | h13 | holdout | price | ✓ |  | 1 | 146 |
@@ -75,8 +75,8 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 
 ## Filling a table (12 holdout rows)
 
-* **Agent session** (every search result stays in the conversation): 1,340 tokens of schema + tool output, growing linearly with rows.
-* **Pipeline** (`python -m goae fill`, one fresh LLM call per row): Ø 140 / max 159 tokens per call — constant, independent of table length.
+* **Agent session** (every search result stays in the conversation): 1,350 tokens of schema + tool output, growing linearly with rows.
+* **Pipeline** (`python -m goae fill`, one fresh LLM call per row): Ø 141 / max 159 tokens per call — constant, independent of table length.
 
 ## Loop history
 
@@ -89,3 +89,4 @@ Each entry is one turn of the optimisation loop, recorded when it was run (`--lo
 | 2026-11-09 19:02 | final | post-hoc synonyms for holdout misses; dev-only level kept for it5-it7 | 23/23 | 16/17 | 88 | 3,644 |
 | 2026-11-09 19:03 | final | lungenfunktion synonym without generic word 'Untersuchung' | 23/23 | 17/17 | 88 | 3,665 |
 | 2026-11-09 19:04 | final | check: grouped output, surcharges allowed next to their base codes; synonym krankschreibung | 23/23 | 17/17 | 88 | 3,687 |
+| 2026-11-09 20:25 | final | parser: 67 Höchstwert codes (3541.H …) were missing; codes like 3562 resolve to 3562.H1 | 23/23 | 17/17 | 89 | 3,697 |
