@@ -1,7 +1,9 @@
 # Colloquial term <TAB> official GOÄ wording that is appended to the query.
 # Matching is case-insensitive and only at the start of a word, so compounds
 # ("Grippeimpfung") must be listed explicitly.
-# Every entry here was added because a *dev* task in bench/tasks.json ranked badly.
+# Each entry was added after a search failed: the entries above the marker below
+# come from failed tuning tasks ("dev" in bench/tasks.json), "krankschreibung" from
+# the example table in examples/.
 # Extend it for your own data — it is the cheapest way to improve recall.
 blutabnahme	Blutentnahme
 ekg	Elektrokardiographische Untersuchung
@@ -14,7 +16,7 @@ oberarm	intramuskulär
 hausbesuch	Besuch
 ganzkörperuntersuchung	Ganzkörperstatus
 krankschreibung	Arbeitsunfähigkeitsbescheinigung
-# --- post-hoc: added after the holdout run (holdout is no longer blind for these) ---
+# --- post-hoc: added after failed test tasks ("holdout"); those tasks are no longer unseen ---
 blutzucker	Glukose
 lungenfunktion	Ruhespirographische spirographische
 thorax	Brustorgane

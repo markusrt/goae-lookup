@@ -3358,7 +3358,7 @@
     "session": 3697
    },
    "id": "it8",
-   "label": "Post-hoc: 6 synonyms for the holdout misses (holdout no longer blind!)"
+   "label": "Post-hoc: 6 synonyms for the failed test tasks (test tasks no longer unseen!)"
   },
   {
    "name": "default",

@@ -44,17 +44,23 @@ back.
 
 ## Results for the GOÄ example
 
-40 example tasks: find a code from a plain-language description, compute a fee, check
-whether two codes may be billed together, look up a rule.
+40 example tasks with known answers: find a code from a plain-language description,
+compute a fee, check whether two codes may be billed together, look up a rule.
 
-| Approach | Tokens per search | All 40 tasks in one conversation | Correct on unseen tasks |
+| Approach | Tokens per search | All 40 tasks in one conversation | Test tasks answered correctly¹ |
 |---|---|---|---|
 | Whole fee schedule in the prompt | ~137,000 | does not fit | – |
 | Generic RAG, top-5 text chunks | ~1,150 | ~49,000 | 5/17 |
 | Straightforward tool (verbose, JSON, 10 results) | ~680 | ~22,000 | 13/17 |
 | **This repository** | **~90** | **~3,700** | 12/17, 17/17 with 6 added synonyms |
 
-Tokens are estimated as characters / 4. Details per task: [CONTEXT_STATS.md](CONTEXT_STATS.md).
+¹ 17 of the 40 tasks are *test tasks*: they were not used while the tool was being
+improved, so they show how well it handles questions it was not tuned for. 12/17 is that
+result. Only in a final step were 6 synonyms added for the failed ones, which gives 17/17
+(see [How the design was found](#how-the-design-was-found)).
+
+Token counts are estimates: number of characters divided by four. Results for every
+single task are in [CONTEXT_STATS.md](CONTEXT_STATS.md).
 
 ## Quick start
 
@@ -139,8 +145,8 @@ Claude Code, Claude Desktop and most other clients (`.mcp.json`):
 
 ## Processing many items: a loop outside the conversation
 
-Small results slow down how fast the context fills, but in a single conversation it still
-grows with every item:
+Compact results make the context fill up more slowly. But if one conversation handles
+all items, it still grows with every item, because each result stays in it:
 
 ```text
 system prompt + tool definitions
@@ -209,30 +215,45 @@ This works, but a script loop is more reliable, especially with small local mode
 The defaults in this repository were not designed up front. They are the result of an
 experiment that you can rerun and reuse for your own data:
 
-1. **Define tasks with known answers** — [`bench/tasks.json`](bench/tasks.json): 23
-   *dev* tasks that may be used for tuning, 17 *holdout* tasks that are only measured,
-   to check that improvements generalise.
-2. **Answer every task with the tools** and measure the size of the tool definitions,
-   the size of all tool results and whether the correct answer is contained in them.
+1. **Write tasks with known answers** in [`bench/tasks.json`](bench/tasks.json), split
+   into two groups:
+   * 23 **tuning tasks** (`dev` in the file). While improving the tool you may look at
+     these, e.g. when a search fails, find out why and fix it.
+   * 17 **test tasks** (`holdout` in the file). These are only run, never used to
+     decide on a change. If a change helps the tuning tasks but not the test tasks, it
+     was probably tailored to those specific questions and will not help real users.
+2. **Answer every task with the tools** and measure three things: the size of the tool
+   definitions, the size of all tool results, and whether the correct answer is
+   contained in them.
 3. **Change one thing, measure again, keep what helps.**
 
-Each step in the table is one such change (Ø tokens per search / dev tasks correct /
-holdout correct):
+Each step in the table is one such change. *Tokens* is the average size of a search
+result; the last two columns count correctly answered tasks.
 
-| Step | Change | Tokens | Dev | Holdout |
+| Step | Change | Tokens | Tuning | Test |
 |---|---|---|---|---|
 | it1 | Straightforward tool: JSON, full texts and notes, 10 results | 678 | 17/23 | 13/17 |
 | it2 | Line format `code\|points\|text` instead of JSON, notes only on request | 171 | 17/23 | 13/17 |
 | it3 | Texts truncated to 80 characters, 5 results — cheap, but loses hits | 62 | 15/23 | 11/17 |
 | it4 | Hybrid ranking (word search + character trigrams for German compounds) | 88 | 19/23 | 12/17 |
-| it5 | Synonym file for plain-language terms, built from failed dev tasks | 88 | 23/23 | 12/17 |
+| it5 | Synonym file for plain-language terms, built from failed tuning tasks | 88 | 23/23 | 12/17 |
 | it6 | Terse tool schema, 4 instead of 5 tools (583 → 245 tokens per request) | 88 | 23/23 | 12/17 |
-| it8 | 6 synonyms for the failed holdout tasks (holdout no longer unseen) | 89 | 23/23 | 17/17 |
+| it8 | 6 synonyms for the failed test tasks (from here on the test tasks are no longer unseen) | 89 | 23/23 | 17/17 |
 
 The lesson: output format and size bring the largest savings, better ranking wins back
-the hits that truncation costs, and the remaining misses are vocabulary gaps
-("Blutzucker" vs. "Glukose", "MRT" vs. "Magnetresonanztomographie") that one line each in
-[`data/synonyms.tsv`](data/synonyms.tsv) fixes.
+the hits that truncation costs, and the remaining misses are vocabulary gaps.
+
+**Where the synonyms come from.** Users write "Blutabnahme", "EKG" or "MRT"; the official
+text says "Blutentnahme", "Elektrokardiographische Untersuchung" and
+"Magnetresonanztomographie". No ranking method bridges that gap reliably, so
+[`data/synonyms.tsv`](data/synonyms.tsv) maps everyday terms to the official wording and
+the search adds that wording to the query. Every entry was added by hand after a search
+failed: look at the task, look up the official text of the expected code, add one line.
+Ten entries came from failed tuning tasks (step it5) and one from the example table in
+`examples/`. Six more were added after test tasks failed (step it8, marked separately in
+the file; "CT" was added along with "MRT"). In a real deployment the best source
+is the searches your users run that find nothing; a domain expert or an LLM can propose
+candidates, but each entry should be checked against a failing example.
 
 ```bash
 python bench/run.py                          # all steps → CONTEXT_STATS.md
@@ -257,6 +278,45 @@ The GOÄ-specific parts are small. To adapt the repository to another dataset:
 
 Then run the benchmark and iterate. Search, MCP server, batch pipeline and benchmark
 work unchanged.
+
+**Example: briefing a coding agent.** The following prompt applies the pattern to a
+completely different dataset — a parts catalog — and can be handed to any coding agent
+(Claude Code, opencode, Codex, …) together with a link to this repository:
+
+```text
+Build a context-minimal lookup tool for our electronic parts catalog. Use the pattern
+and project structure of https://github.com/markusrt/goae-lookup (read its README first).
+
+Data
+- catalog.csv (~400,000 rows, 300 MB): part_number, manufacturer, description,
+  category, package, attributes (JSON: resistance, tolerance, voltage, …),
+  price_breaks (JSON: quantity → unit price), stock, lifecycle (active/NRND/EOL)
+- The file is far too large for any context window. Never put it, or large parts of
+  it, into a prompt.
+
+Questions the tool must answer
+1. Which parts match a free-text description from a bill of materials,
+   e.g. "10k resistor 0603 1%" or "100nF 50V X7R 0805"?
+2. What does part X cost at quantity N (use the price breaks; compute in code)?
+3. Is part X still active, and if not, which in-stock parts have the same category,
+   package and key attributes?
+4. Fill a BOM (bom.csv, one line per item) with a part number per line.
+
+Requirements
+- Parse the catalog once into SQLite with full-text search. Normalise units in
+  descriptions and attributes (10k = 10 kΩ = 10000, 100nF = 0.1 µF).
+- Operations: search, get, price, alternatives. Every answer at most ~10 short lines;
+  search returns the top 5 as "part|key attributes|price@1|stock".
+- Offer them as a CLI and as an MCP server with short tool descriptions.
+- BOM filling runs as a script loop: one small LLM call per line (line + 5 candidates),
+  result written to the output file immediately, resumable, codes outside the
+  candidate list rejected.
+- Write 40 tasks with known answers (25 tuning, 15 test) and a benchmark that reports
+  tokens per answer and correctness. Iterate on output format, ranking and synonyms
+  ("cap" → capacitor, "res" → resistor) until results are small and correct, using only
+  the tuning tasks to decide on changes. Report the test results honestly.
+- Write the results of each iteration to CONTEXT_STATS.md.
+```
 
 ## Building the database from another source
 
