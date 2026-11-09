@@ -160,18 +160,39 @@ class Fill(unittest.TestCase):
 
 class AgentMode(unittest.TestCase):
     def test_next_and_set(self):
-        from goae.fill import next_row, set_row
+        from goae.fill import next_rows, output_path, set_rows
         with tempfile.TemporaryDirectory() as d:
             path = Path(d) / "t.csv"
-            path.write_text("leistung\nBlutabnahme aus der Vene\nRuhe-EKG\n", encoding="utf-8")
-            out = next_row(path)
-            self.assertTrue(out.startswith("row 1 (2 open): Blutabnahme"))
-            self.assertIn("250|", out)
-            self.assertIn("unknown code", set_row(path, 1, "99999"))
-            self.assertEqual(set_row(path, 1, "250"), "row 1 = 250 (1 open)")
-            self.assertTrue(next_row(path).startswith("row 2"))
-            set_row(path, 2, "?")
-            self.assertEqual(next_row(path), "done: 2 rows, '?' in rows 2")
+            original = "leistung\nBlutabnahme aus der Vene\nRuhe-EKG\nHausbesuch\n"
+            path.write_text(original, encoding="utf-8")
+            out = next_rows(path, n=2)
+            self.assertTrue(out.startswith("3 open"))
+            self.assertIn("#1 Blutabnahme", out)
+            self.assertIn("  250|", out)
+            self.assertNotIn("#3", out)                       # batch size
+            out = set_rows(path, ["1=250", "2=99999"])
+            self.assertTrue(out.startswith("saved 1=250; errors: 2: unknown code 99999"))
+            self.assertIn("#2 Ruhe-EKG", out)                  # next batch follows
+            set_rows(path, ["2=651", "3=?"])
+            self.assertTrue(next_rows(path).startswith("done: 3 rows"))
+            self.assertIn("'?' in rows 3", next_rows(path))
+            self.assertEqual(path.read_text(encoding="utf-8"), original)  # input untouched
+            result = list(csv.DictReader(output_path(path).open(encoding="utf-8")))
+            self.assertEqual([r["goae"] for r in result], ["250", "651", "?"])
+
+    def test_fill_with_llm_cmd(self):
+        from goae.fill import fill
+        with tempfile.TemporaryDirectory() as d:
+            fake = Path(d) / "fake.py"
+            fake.write_text("import sys, re\n"
+                            "m = re.search(r'^([^|\\s]+)\\|', sys.stdin.read(), re.M)\n"
+                            "print('ok {\"code\": \"%s\", \"confidence\": 0.9}' % m.group(1))\n",
+                            encoding="utf-8")
+            src = Path(d) / "t.csv"
+            src.write_text("leistung\nRuhe-EKG\n", encoding="utf-8")
+            dst = fill(src, None, None, 5, None, "", 0.5, llm_cmd=f'"{sys.executable}" "{fake}"')
+            rows = list(csv.DictReader(dst.open(encoding="utf-8")))
+            self.assertEqual(rows[0]["goae"], "651")
 
 
 class AbrechnungsstelleAdapter(unittest.TestCase):

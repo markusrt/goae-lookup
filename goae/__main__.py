@@ -6,7 +6,8 @@
   python -m goae check 1 3 250
   python -m goae rules 5
   python -m goae fill table.csv -o table.out.csv [--llm http://localhost:11434/v1 --model qwen2.5:7b]
-  python -m goae next table.csv / set table.csv 3 651   # agent works through a table row by row
+  python -m goae fill table.csv --llm-cmd "claude -p"   # any CLI as the LLM, one call per row
+  python -m goae next table.csv / set table.csv 3=651 4=375   # agent works through a table in batches
   python -m goae build          # (re)build data/goae.db from data/source/goae_1982.md
   python -m goae build --source abrechnungsstelle   # alternative DB from abrechnungsstelle.com
   python -m goae --db data/goae-abrechnungsstelle.db search "…"   # or set GOAE_DB
@@ -52,18 +53,21 @@ def main(argv: list[str] | None = None) -> int:
     f.add_argument("--col", help="column with the service description (default: first)")
     f.add_argument("-k", type=int, default=5)
     f.add_argument("--llm", help="OpenAI-compatible base URL, e.g. http://localhost:11434/v1")
+    f.add_argument("--llm-cmd", help="CLI that reads the prompt on stdin, e.g. \"claude -p\" or \"ollama run qwen2.5\"")
     f.add_argument("--model", default="qwen2.5:7b-instruct")
     f.add_argument("--min-confidence", type=float, default=0.5)
 
-    n = sub.add_parser("next", help="agent mode: show the next open row of a CSV with candidates")
+    n = sub.add_parser("next", help="agent mode: show the next open rows of a CSV with candidates")
     n.add_argument("csv", type=Path)
     n.add_argument("--col", help="column with the service description (default: first)")
-    n.add_argument("-k", type=int, default=5)
+    n.add_argument("-n", type=int, default=10, help="rows per batch (default 10)")
+    n.add_argument("-k", type=int, default=3, help="candidates per row (default 3)")
 
-    st = sub.add_parser("set", help="agent mode: write a code into a row of a CSV ('?' = unsure)")
+    st = sub.add_parser("set", help="agent mode: save ROW=CODE pairs ('?' = nothing fits), show next rows")
     st.add_argument("csv", type=Path)
-    st.add_argument("row", type=int)
-    st.add_argument("code", nargs="+")
+    st.add_argument("pairs", nargs="+", help="e.g. 3=651 4=375 5=?")
+    st.add_argument("--col")
+    st.add_argument("-k", type=int, default=3)
 
     b = sub.add_parser("build", help="(re)build a SQLite database")
     b.add_argument("--source", choices=["official", "abrechnungsstelle"], default="official",
@@ -72,6 +76,9 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("mcp", help="run the MCP server on stdio")
 
     a = ap.parse_args(argv)
+    for stream in (sys.stdout, sys.stderr):  # UTF-8 even on Windows consoles and pipes
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     if a.db:
         os.environ["GOAE_DB"] = a.db
     if a.cmd == "search":
@@ -88,15 +95,13 @@ def main(argv: list[str] | None = None) -> int:
         print(db.rules(a.code, limit=a.limit))
     elif a.cmd == "fill":
         from .fill import fill
-        out = a.out or a.csv.with_name(a.csv.stem + ".goae.csv")
-        fill(a.csv, out, a.col, a.k, a.llm, a.model, a.min_confidence)
-        print(out)
+        print(fill(a.csv, a.out, a.col, a.k, a.llm, a.model, a.min_confidence, a.llm_cmd))
     elif a.cmd == "next":
-        from .fill import next_row
-        print(next_row(a.csv, a.col, a.k))
+        from .fill import next_rows
+        print(next_rows(a.csv, a.col, a.k, a.n))
     elif a.cmd == "set":
-        from .fill import set_row
-        print(set_row(a.csv, a.row, " ".join(a.code)))
+        from .fill import set_rows
+        print(set_rows(a.csv, a.pairs, a.col, a.k))
     elif a.cmd == "build":
         if a.source == "abrechnungsstelle":
             from .sources import abrechnungsstelle as src

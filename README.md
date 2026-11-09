@@ -202,54 +202,84 @@ python -m goae fill examples/leistungen.csv
 # (Ollama, llama.cpp server, LM Studio, vLLM)
 python -m goae fill examples/leistungen.csv --llm http://localhost:11434/v1 --model qwen2.5:7b-instruct
 
+# fully automatic with any CLI that reads a prompt on stdin (see below)
+python -m goae fill examples/leistungen.csv --llm-cmd "claude -p --model haiku"
+
 # options: column with the description, number of candidates, output file
 python -m goae fill my.csv --col Leistungsbeschreibung -k 5 -o my.done.csv
 ```
 
+### No API? Use the agent CLI you already have as the LLM
+
+`--llm-cmd` runs any command line tool that reads a prompt on stdin, once per row. Each
+call is a new process, so every row starts with an empty context, no matter how long the
+table is:
+
+```bash
+python -m goae fill examples/leistungen.csv --llm-cmd "claude -p --model haiku"
+python -m goae fill examples/leistungen.csv --llm-cmd "ollama run qwen2.5:7b-instruct"
+```
+
+With `claude -p` this uses your normal Claude subscription, no API key. Each call takes a
+few seconds because Claude Code starts up every time, but nothing accumulates.
+
 ### Letting an agent work through the table
 
-If you prefer to keep an agent in charge, give it the same rule: one row at a time, write
-each result to the file immediately, never collect results in the conversation. Two
-commands support this, so the agent never has to open the file itself:
+If an agent should do the work inside its own session, two commands keep that session
+small. `next` shows a batch of open rows with three short candidates each; `set` saves a
+whole batch of answers and immediately prints the next batch. One tool call handles ten
+rows, and the agent never has to open the file:
 
 ```text
-$ python -m goae next leistungen.csv
-row 2 (7 open): Ruhe-EKG
-651|253P|Elektrokardiographische Untersuchung in Ruhe - auch gegebenenfalls nach…
-650|152P|Elektrokardiographische Untersuchung zur Feststellung einer Rhythmusstörung…
+$ python -m goae next examples/leistungen.csv
+8 open; answer with: set leistungen.csv ROW=CODE … (? = nothing fits)
+#1 Blutabnahme aus der Vene
+  1012|74P|Blutentnahme beim Fetus
+  250|40P|Blutentnahme mittels Spritze, Kanüle oder Katheter aus der…
+  284|90P|Eigenbluteinspritzung - einschließlich Blutentnahme -
+#2 Ruhe-EKG
+  651|253P|Elektrokardiographische Untersuchung in Ruhe - auch…
 …
-$ python -m goae set leistungen.csv 2 651
-row 2 = 651 (6 open)
+$ python -m goae set examples/leistungen.csv 1=250 2=651 3=375 4=3 5=417 6=3550 7=50 8=70
+saved 1=250 2=651 3=375 4=3 5=417 6=3550 7=50 8=70
+done: 8 rows → leistungen.goae.csv
 ```
 
 A prompt for the agent:
 
 ```text
-Fill the empty "goae" column in leistungen.csv with GOÄ codes. Work in a loop, one row
-at a time:
+Find the GOÄ codes for examples/leistungen.csv. Work in batches:
 
-1. Run `python -m goae next leistungen.csv`. It prints the next open row and five
-   candidate codes.
-2. Choose the candidate that matches the service. If two seem plausible, compare them
-   with `python -m goae get <code>`. If none fits, search once more with the medical
-   term: `python -m goae search "<term>"`.
-3. Save the result right away: `python -m goae set leistungen.csv <row> <code>`.
-   Use `?` as the code if nothing fits.
-4. Repeat until `next` prints "done", or stop after 30 rows.
+1. Run `python -m goae next examples/leistungen.csv`. It lists up to 10 open rows
+   (#row and description), each with three candidate codes.
+2. For each row pick the matching candidate. Only if none fits, run
+   `python -m goae search "<medical term>"` for that row; use ? if still nothing fits.
+3. Save the whole batch with one command, e.g.
+   `python -m goae set examples/leistungen.csv 1=250 2=651 3=?`
+   It saves the answers and prints the next batch. Repeat 2–3 until it prints "done".
 
-Rules: never open or print the whole CSV, and do not list or summarise earlier rows in
-your messages. The file is the record. At the end, only report how many rows you filled
-and which rows got "?".
+Rules: do not open, print or edit the CSV files yourself. Do not repeat rows or results
+in your messages, and keep your reasoning short. At the end, report only the output file
+and the rows marked ?.
 ```
 
-Each row still adds about 150–250 tokens to the conversation (candidates, the agent's
-tool calls and reasoning), so the limit of 30 rows keeps a session well within a 32K
-window. Because the progress is in the file, a new session with the same prompt simply
-continues with the next open row. The script loop above avoids this growth entirely and
-is more reliable with small local models.
+What to expect: a batch of 10 rows is about 530 tokens of tool output. The agent's own
+reasoning and tool-call messages usually cost more than that, which is why batching
+matters: it pays this overhead once per ten rows instead of once per row.
 
-No MCP configuration is needed for this: any agent that can run shell commands can use
-the CLI. MCP (`.mcp.json`, `opencode.json`) is only needed for agents without shell
+Two more things keep the session small:
+
+* **Results go to a separate file** (`leistungen.goae.csv`); the input is never changed.
+  Some agents re-insert a file into the conversation whenever a file they have read
+  changes on disk (Claude Code does this as a "file updated" note with a diff). Writing
+  to a file the agent has never opened avoids that.
+* **Delegate the loop to a subagent** if your agent supports it (Claude Code, opencode):
+  start the prompt above with "Use a subagent for this and report only its summary." The
+  subagent's context is discarded afterwards; your main conversation only receives the
+  summary.
+
+No MCP configuration is needed for any of this: an agent that can run shell commands
+uses the CLI. MCP (`.mcp.json`, `opencode.json`) is only needed for agents without shell
 access, or if you prefer tool calls to shell commands; `next` and `set` are CLI-only.
 
 ## How the design was found

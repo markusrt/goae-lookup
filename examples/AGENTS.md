@@ -10,6 +10,8 @@ prints a few lines only.
 - `python -m goae check <code> <code> …` → exclusion rules between codes billed together.
 - `python -m goae rules <code>` → general rules that mention the code.
 
-To complete a table, do not keep results in the conversation and do not open the file:
-loop `python -m goae next <file.csv>` → choose → `python -m goae set <file.csv> <row> <code>`
-(`?` if nothing fits) until `next` prints "done". Or run `python -m goae fill <file.csv>`.
+To complete a table, do not keep results in the conversation and do not open the CSV:
+run `python -m goae next <file.csv>` (10 open rows with 3 candidates each), then save the
+whole batch with `python -m goae set <file.csv> 1=250 2=651 3=?` (`?` = nothing fits),
+which prints the next batch. Repeat until it prints "done". Results are written to
+`<file>.goae.csv`. Or run `python -m goae fill <file.csv> --llm-cmd "<cli that reads stdin>"`.
