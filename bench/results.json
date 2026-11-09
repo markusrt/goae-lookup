@@ -1,0 +1,3706 @@
+{
+ "iterations": [
+  {
+   "name": "full document in context",
+   "schema": 0,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 136999
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "17/17",
+    "avg_out": 136999,
+    "max_out": 136999,
+    "avg_find_out": 136999,
+    "session": 136999
+   },
+   "id": "it0a",
+   "label": "Baseline: whole fee schedule in the prompt"
+  },
+  {
+   "name": "generic docs RAG (top-5 chunks à ~1500 chars)",
+   "schema": 0,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1012
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1657
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1714
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 344
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1780
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 329
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 658
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1721
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1713
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1478
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 315
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1785
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 299
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1783
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1696
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1831
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1405
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1723
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1723
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1723
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1619
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1823
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1803
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1468
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1767
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1744
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1125
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1489
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 366
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 647
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1825
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 0
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1723
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1816
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1723
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1762
+    }
+   },
+   "summary": {
+    "dev": "12/23",
+    "holdout": "5/17",
+    "avg_out": 1235,
+    "max_out": 1831,
+    "avg_find_out": 1155,
+    "session": 49389
+   },
+   "id": "it0b",
+   "label": "Baseline: generic docs RAG, top-5 chunks"
+  },
+  {
+   "name": "naive tools",
+   "schema": 583,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 8,
+     "calls": 1,
+     "out": 909
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 1416
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 7,
+     "calls": 1,
+     "out": 1378
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1331
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 265
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 372
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 829
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 966
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 782
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 278
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 861
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 172
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 1596
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1070
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 8
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 773
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 75
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 1170
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 10,
+     "calls": 1,
+     "out": 923
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 649
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 888
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 1037
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 9,
+     "calls": 1,
+     "out": 1007
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 144
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 88
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 491
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 4,
+     "calls": 1,
+     "out": 696
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 1139
+    }
+   },
+   "summary": {
+    "dev": "17/23",
+    "holdout": "13/17",
+    "avg_out": 541,
+    "max_out": 1596,
+    "avg_find_out": 693,
+    "session": 22205
+   },
+   "id": "it1",
+   "label": "Naive tools: verbose schema, JSON, k=10, full text + notes, BM25"
+  },
+  {
+   "name": "lines",
+   "schema": 583,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 8,
+     "calls": 1,
+     "out": 239
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 371
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 7,
+     "calls": 1,
+     "out": 309
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 427
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 88
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 155
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 171
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 189
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 166
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 30
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 185
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 68
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 345
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 169
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 8
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 17
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 336
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 10,
+     "calls": 1,
+     "out": 268
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 204
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 152
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 278
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 9,
+     "calls": 1,
+     "out": 245
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 47
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 23
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 117
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 4,
+     "calls": 1,
+     "out": 173
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "17/23",
+    "holdout": "13/17",
+    "avg_out": 134,
+    "max_out": 427,
+    "avg_find_out": 171,
+    "session": 5942
+   },
+   "id": "it2",
+   "label": "Line format 'code|points|text' instead of JSON, notes only via get"
+  },
+  {
+   "name": "truncate+k5",
+   "schema": 583,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 81
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 92
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 108
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 60
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 63
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 30
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 80
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 19
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 108
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 69
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 8
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 17
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 4
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 103
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 46
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 86
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 72
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 21
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 23
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 57
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 4,
+     "calls": 1,
+     "out": 86
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "15/23",
+    "holdout": "11/17",
+    "avg_out": 57,
+    "max_out": 137,
+    "avg_find_out": 62,
+    "session": 2881
+   },
+   "id": "it3",
+   "label": "Truncate text to 80 chars, k=5"
+  },
+  {
+   "name": "hybrid",
+   "schema": 583,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 79
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 93
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 85
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 80
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 110
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 93
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 78
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 95
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 8
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 94
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 85
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 49
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 88
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 76
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 100
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 85
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "19/23",
+    "holdout": "12/17",
+    "avg_out": 76,
+    "max_out": 137,
+    "avg_find_out": 88,
+    "session": 3614
+   },
+   "id": "it4",
+   "label": "Hybrid ranking: BM25 prefix + character-trigram TF-IDF (compounds)"
+  },
+  {
+   "name": "synonyms",
+   "schema": 583,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 77
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 59
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 95
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 8
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 94
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 85
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 49
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 88
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 76
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 105
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 85
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 7
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "12/17",
+    "avg_out": 76,
+    "max_out": 137,
+    "avg_find_out": 87,
+    "session": 3607
+   },
+   "id": "it5",
+   "label": "Synonym file for colloquial terms (derived from dev failures only)"
+  },
+  {
+   "name": "terse schema",
+   "schema": 245,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 77
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 59
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 95
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 52
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 58
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 162
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 94
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 85
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 49
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 88
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 76
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 105
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 85
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 146
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "12/17",
+    "avg_out": 85,
+    "max_out": 162,
+    "avg_find_out": 87,
+    "session": 3658
+   },
+   "id": "it6",
+   "label": "Terse 4-tool schema, fees folded into goae_get"
+  },
+  {
+   "name": "k3",
+   "schema": 245,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 41
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 41
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 49
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 36
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 47
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 49
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 47
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 43
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 31
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 44
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 44
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 42
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 38
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 50
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 50
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 48
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 52
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 58
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 162
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 51
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 50
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 51
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 51
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 44
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 25
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 49
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": false,
+     "rank": null,
+     "calls": 1,
+     "out": 45
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 49
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 44
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 47
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 48
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 146
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "12/17",
+    "avg_out": 55,
+    "max_out": 162,
+    "avg_find_out": 45,
+    "session": 2463
+   },
+   "id": "it7",
+   "label": "Probe: k=3, text 60 chars"
+  },
+  {
+   "name": "post-hoc synonyms",
+   "schema": 245,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 77
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 59
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 95
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 52
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 58
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 162
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 82
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 93
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 95
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 105
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 85
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 146
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "17/17",
+    "avg_out": 86,
+    "max_out": 162,
+    "avg_find_out": 88,
+    "session": 3687
+   },
+   "id": "it8",
+   "label": "Post-hoc: 6 synonyms for the holdout misses (holdout no longer blind!)"
+  },
+  {
+   "name": "default",
+   "schema": 245,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 77
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 83
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 59
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 95
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 52
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 58
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 162
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 82
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 93
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 95
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 105
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 85
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 146
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "17/17",
+    "avg_out": 86,
+    "max_out": 162,
+    "avg_find_out": 88,
+    "session": 3687
+   },
+   "id": "final",
+   "label": "Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema)"
+  }
+ ],
+ "fill": {
+  "rows": 12,
+  "agent_session_tool_tokens": 1340,
+  "pipeline_max_prompt": 159,
+  "pipeline_avg_prompt": 140
+ }
+}

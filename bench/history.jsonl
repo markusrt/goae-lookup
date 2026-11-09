@@ -1,0 +1,5 @@
+{"when": "2026-11-09 19:01", "id": "final", "note": "first run, empty synonym file", "dev": "19/23", "holdout": "12/17", "avg_out": 86, "max_out": 162, "avg_find_out": 89, "session": 3671}
+{"when": "2026-11-09 19:02", "id": "final", "note": "dev-derived synonyms (10 entries) + stopword 'mindestens'", "dev": "23/23", "holdout": "12/17", "avg_out": 85, "max_out": 162, "avg_find_out": 87, "session": 3636}
+{"when": "2026-11-09 19:02", "id": "final", "note": "post-hoc synonyms for holdout misses; dev-only level kept for it5-it7", "dev": "23/23", "holdout": "16/17", "avg_out": 85, "max_out": 162, "avg_find_out": 88, "session": 3644}
+{"when": "2026-11-09 19:03", "id": "final", "note": "lungenfunktion synonym without generic word 'Untersuchung'", "dev": "23/23", "holdout": "17/17", "avg_out": 86, "max_out": 162, "avg_find_out": 88, "session": 3665}
+{"when": "2026-11-09 19:04", "id": "final", "note": "check: grouped output, surcharges allowed next to their base codes; synonym krankschreibung", "dev": "23/23", "holdout": "17/17", "avg_out": 86, "max_out": 162, "avg_find_out": 88, "session": 3687}

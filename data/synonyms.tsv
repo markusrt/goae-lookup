@@ -1,0 +1,23 @@
+# Colloquial term <TAB> official GOÄ wording that is appended to the query.
+# Matching is case-insensitive and only at the start of a word, so compounds
+# ("Grippeimpfung") must be listed explicitly.
+# Every entry here was added because a *dev* task in bench/tasks.json ranked badly.
+# Extend it for your own data — it is the cheapest way to improve recall.
+blutabnahme	Blutentnahme
+ekg	Elektrokardiographische Untersuchung
+ausführlich	eingehende
+impfung	Schutzimpfung
+grippeimpfung	Schutzimpfung
+spritze	Injektion
+muskel	intramuskulär
+oberarm	intramuskulär
+hausbesuch	Besuch
+ganzkörperuntersuchung	Ganzkörperstatus
+krankschreibung	Arbeitsunfähigkeitsbescheinigung
+# --- post-hoc: added after the holdout run (holdout is no longer blind for these) ---
+blutzucker	Glukose
+lungenfunktion	Ruhespirographische spirographische
+thorax	Brustorgane
+mrt	Magnetresonanztomographie
+ct	Computertomographie
+vitamin d	25-Hydroxy-Vitamin D

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.egg-info/
+data/goae.db
+data/goae.tmp
+*.tmp
+*.goae.csv
+.venv/
