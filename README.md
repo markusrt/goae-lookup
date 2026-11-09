@@ -211,17 +211,29 @@ python -m goae fill my.csv --col Leistungsbeschreibung -k 5 -o my.done.csv
 
 ### No API? Use the agent CLI you already have as the LLM
 
-`--llm-cmd` runs any command line tool that reads a prompt on stdin, once per row. Each
-call is a new process, so every row starts with an empty context, no matter how long the
-table is:
+`--llm-cmd` runs a command line tool that reads a prompt on stdin, once per row. Each call
+is a new process, so every row starts with an empty conversation:
 
 ```bash
-python -m goae fill examples/leistungen.csv --llm-cmd "claude -p --model haiku"
+python -m goae fill examples/leistungen.csv --llm-cmd claude
 python -m goae fill examples/leistungen.csv --llm-cmd "ollama run qwen2.5:7b-instruct"
 ```
 
-With `claude -p` this uses your normal Claude subscription, no API key. Each call takes a
-few seconds because Claude Code starts up every time, but nothing accumulates.
+`claude` is a preset for Claude Code that uses your normal subscription, no API key.
+The preset matters: a plain `claude -p` call carries Claude Code's complete system
+prompt, tool definitions, MCP servers and skills into *every* call. The preset replaces
+the system prompt and switches the rest off (`--system-prompt … --tools "" --strict-mcp-config
+--disallowedTools "mcp__*" --no-chrome --disable-slash-commands --no-session-persistence`,
+model `haiku`). Measured with Claude Code 2.1.321 on the example table:
+
+| | Input tokens per row | 8 rows |
+|---|---|---|
+| plain `claude -p` | ~42,000 | ~340,000 |
+| `--llm-cmd claude` (preset) | ~2,000 | ~16,000, 8/8 correct, 18 s |
+
+For comparison, an agent session is not free per step either: every turn re-sends the
+whole conversation, including the agent's own system prompt (~30,000 tokens in Claude
+Code), mostly as cheaper cached input. The per-row preset calls stay small and constant.
 
 ### Letting an agent work through the table
 

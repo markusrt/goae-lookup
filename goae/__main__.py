@@ -6,7 +6,7 @@
   python -m goae check 1 3 250
   python -m goae rules 5
   python -m goae fill table.csv -o table.out.csv [--llm http://localhost:11434/v1 --model qwen2.5:7b]
-  python -m goae fill table.csv --llm-cmd "claude -p"   # any CLI as the LLM, one call per row
+  python -m goae fill table.csv --llm-cmd claude   # Claude Code (slim) as the LLM, one call per row
   python -m goae next table.csv / set table.csv 3=651 4=375   # agent works through a table in batches
   python -m goae build          # (re)build data/goae.db from data/source/goae_1982.md
   python -m goae build --source abrechnungsstelle   # alternative DB from abrechnungsstelle.com
@@ -53,7 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     f.add_argument("--col", help="column with the service description (default: first)")
     f.add_argument("-k", type=int, default=5)
     f.add_argument("--llm", help="OpenAI-compatible base URL, e.g. http://localhost:11434/v1")
-    f.add_argument("--llm-cmd", help="CLI that reads the prompt on stdin, e.g. \"claude -p\" or \"ollama run qwen2.5\"")
+    f.add_argument("--llm-cmd", help="CLI that reads the prompt on stdin, e.g. \"ollama run qwen2.5\"; "
+                        "'claude' = Claude Code without its system prompt, tools and MCP")
     f.add_argument("--model", default="qwen2.5:7b-instruct")
     f.add_argument("--min-confidence", type=float, default=0.5)
 

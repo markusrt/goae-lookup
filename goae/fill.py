@@ -7,7 +7,8 @@ instead of in a conversation, and both can be interrupted and resumed:
                   (row + top-k candidates). The LLM is either an
                   OpenAI-compatible endpoint (``--llm``) or any command line
                   tool that reads a prompt on stdin (``--llm-cmd``, e.g.
-                  ``claude -p``, ``ollama run <model>``). Without either,
+                  ``ollama run <model>``, or ``claude`` for a slimmed-down
+                  Claude Code call). Without either,
                   only the candidates are written.
 * ``next``/``set`` – for an agent that works through the table itself. The
                   agent never opens the file: ``next`` shows a batch of open
@@ -63,13 +64,31 @@ def ask_llm(prompt: str, url: str, model: str, timeout: int = 120) -> dict:
         return _json_from(json.load(r)["choices"][0]["message"]["content"])
 
 
+# `--llm-cmd claude`: Claude Code as a plain question-answer tool. A default
+# `claude -p` call carries Claude Code's full system prompt, tool definitions,
+# MCP servers and skills: ~42,000 input tokens per call when measured (Claude
+# Code 2.1.321). These flags replace or switch off all of that: ~3,400 tokens.
+CLAUDE_SYSTEM = ("Du ordnest medizinische Leistungen GOÄ-Ziffern zu. "
+                 "Antworte ausschließlich mit dem verlangten JSON.")
+CLAUDE_PRESET = ["claude", "-p", "--model", "haiku", "--system-prompt", CLAUDE_SYSTEM,
+                 "--tools", "", "--strict-mcp-config", "--disallowedTools", "mcp__*",
+                 "--no-chrome", "--disable-slash-commands", "--no-session-persistence"]
+
+
 def ask_cmd(prompt: str, cmd: str, timeout: int = 300) -> dict:
-    """Any CLI that reads the prompt on stdin and prints the answer, e.g. 'claude -p'.
-    Each call is a new process, so every row starts with an empty context."""
-    p = subprocess.run(cmd, shell=True, input=prompt, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace", timeout=timeout)
+    """Any CLI that reads the prompt on stdin and prints the answer.
+    Each call is a new process, so every row starts with an empty conversation.
+    The special value 'claude' runs Claude Code with CLAUDE_PRESET."""
+    if cmd.strip() == "claude":
+        import shutil
+        exe = shutil.which("claude") or "claude"
+        p = subprocess.run([exe, *CLAUDE_PRESET[1:]], input=prompt, capture_output=True,
+                           text=True, encoding="utf-8", errors="replace", timeout=timeout)
+    else:
+        p = subprocess.run(cmd, shell=True, input=prompt, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=timeout)
     if p.returncode != 0:
-        raise RuntimeError(p.stderr.strip()[:200] or f"exit code {p.returncode}")
+        raise RuntimeError((p.stderr or p.stdout).strip()[:200] or f"exit code {p.returncode}")
     return _json_from(p.stdout)
 
 
