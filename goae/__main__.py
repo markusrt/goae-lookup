@@ -6,6 +6,7 @@
   python -m goae check 1 3 250
   python -m goae rules 5
   python -m goae fill table.csv -o table.out.csv [--llm http://localhost:11434/v1 --model qwen2.5:7b]
+  python -m goae next table.csv / set table.csv 3 651   # agent works through a table row by row
   python -m goae build          # (re)build data/goae.db from data/source/goae_1982.md
   python -m goae build --source abrechnungsstelle   # alternative DB from abrechnungsstelle.com
   python -m goae --db data/goae-abrechnungsstelle.db search "…"   # or set GOAE_DB
@@ -54,6 +55,16 @@ def main(argv: list[str] | None = None) -> int:
     f.add_argument("--model", default="qwen2.5:7b-instruct")
     f.add_argument("--min-confidence", type=float, default=0.5)
 
+    n = sub.add_parser("next", help="agent mode: show the next open row of a CSV with candidates")
+    n.add_argument("csv", type=Path)
+    n.add_argument("--col", help="column with the service description (default: first)")
+    n.add_argument("-k", type=int, default=5)
+
+    st = sub.add_parser("set", help="agent mode: write a code into a row of a CSV ('?' = unsure)")
+    st.add_argument("csv", type=Path)
+    st.add_argument("row", type=int)
+    st.add_argument("code", nargs="+")
+
     b = sub.add_parser("build", help="(re)build a SQLite database")
     b.add_argument("--source", choices=["official", "abrechnungsstelle"], default="official",
                    help="official GOÄ text (default) or abrechnungsstelle.com (downloads 14 pages)")
@@ -80,6 +91,12 @@ def main(argv: list[str] | None = None) -> int:
         out = a.out or a.csv.with_name(a.csv.stem + ".goae.csv")
         fill(a.csv, out, a.col, a.k, a.llm, a.model, a.min_confidence)
         print(out)
+    elif a.cmd == "next":
+        from .fill import next_row
+        print(next_row(a.csv, a.col, a.k))
+    elif a.cmd == "set":
+        from .fill import set_row
+        print(set_row(a.csv, a.row, " ".join(a.code)))
     elif a.cmd == "build":
         if a.source == "abrechnungsstelle":
             from .sources import abrechnungsstelle as src

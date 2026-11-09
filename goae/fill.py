@@ -89,3 +89,50 @@ def fill(src: Path, dst: Path, col: str | None, k: int, llm: str | None, model: 
             print(f"{i}/{len(rows)} {row[col][:40]!r} -> {row.get('goae') or row['goae_candidates']}",
                   file=sys.stderr)
     tmp.replace(dst)
+
+
+# ------------------------------------------------- agent mode: next / set
+# For agents that work through a table themselves. The agent never reads the
+# file: `next` shows one open row with its candidates, `set` writes the answer
+# back immediately. Progress lives in the file, so a new session can continue.
+
+def _load(path: Path, col: str | None):
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        raise SystemExit(f"{path}: empty table")
+    fields = list(rows[0])
+    if "goae" not in fields:
+        fields.append("goae")
+    return rows, fields, col or fields[0]
+
+
+def next_row(path: Path, col: str | None = None, k: int = 5) -> str:
+    rows, _fields, col = _load(path, col)
+    open_rows = [i for i, r in enumerate(rows, 1) if not (r.get("goae") or "").strip()]
+    if not open_rows:
+        unsure = [str(i) for i, r in enumerate(rows, 1) if r.get("goae") == "?"]
+        return f"done: {len(rows)} rows" + (f", '?' in rows {', '.join(unsure)}" if unsure else "")
+    i = open_rows[0]
+    cands = db.search(rows[i - 1][col], profile=db.Profile(k=k))
+    return f"row {i} ({len(open_rows)} open): {rows[i - 1][col]}\n{cands}"
+
+
+def set_row(path: Path, row: int, code: str, col: str | None = None) -> str:
+    rows, fields, _col = _load(path, col)
+    if not 1 <= row <= len(rows):
+        raise SystemExit(f"row {row} out of range 1..{len(rows)}")
+    if code != "?":
+        r = db._row(db.connect(), code)
+        if r is None:
+            return f"unknown code {code}: nothing written (use ? if no code fits)"
+        code = r["code"]
+    rows[row - 1]["goae"] = code
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows({k: r.get(k, "") for k in fields} for r in rows)
+    tmp.replace(path)
+    left = sum(1 for r in rows if not (r.get("goae") or "").strip())
+    return f"row {row} = {code} ({left} open)"

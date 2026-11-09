@@ -158,6 +158,22 @@ class Fill(unittest.TestCase):
         self.assertEqual(len(FakeLLM.prompts) - n, 1)
 
 
+class AgentMode(unittest.TestCase):
+    def test_next_and_set(self):
+        from goae.fill import next_row, set_row
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "t.csv"
+            path.write_text("leistung\nBlutabnahme aus der Vene\nRuhe-EKG\n", encoding="utf-8")
+            out = next_row(path)
+            self.assertTrue(out.startswith("row 1 (2 open): Blutabnahme"))
+            self.assertIn("250|", out)
+            self.assertIn("unknown code", set_row(path, 1, "99999"))
+            self.assertEqual(set_row(path, 1, "250"), "row 1 = 250 (1 open)")
+            self.assertTrue(next_row(path).startswith("row 2"))
+            set_row(path, 2, "?")
+            self.assertEqual(next_row(path), "done: 2 rows, '?' in rows 2")
+
+
 class AbrechnungsstelleAdapter(unittest.TestCase):
     """Offline test of the site adapter against a hand-written fixture."""
 

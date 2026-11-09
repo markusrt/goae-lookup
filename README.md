@@ -206,9 +206,51 @@ python -m goae fill examples/leistungen.csv --llm http://localhost:11434/v1 --mo
 python -m goae fill my.csv --col Leistungsbeschreibung -k 5 -o my.done.csv
 ```
 
-If an agent should stay in charge instead, give it the same rule: one row at a time,
-write each result to the file immediately, never collect results in the conversation.
-This works, but a script loop is more reliable, especially with small local models.
+### Letting an agent work through the table
+
+If you prefer to keep an agent in charge, give it the same rule: one row at a time, write
+each result to the file immediately, never collect results in the conversation. Two
+commands support this, so the agent never has to open the file itself:
+
+```text
+$ python -m goae next leistungen.csv
+row 2 (7 open): Ruhe-EKG
+651|253P|Elektrokardiographische Untersuchung in Ruhe - auch gegebenenfalls nach…
+650|152P|Elektrokardiographische Untersuchung zur Feststellung einer Rhythmusstörung…
+…
+$ python -m goae set leistungen.csv 2 651
+row 2 = 651 (6 open)
+```
+
+A prompt for the agent:
+
+```text
+Fill the empty "goae" column in leistungen.csv with GOÄ codes. Work in a loop, one row
+at a time:
+
+1. Run `python -m goae next leistungen.csv`. It prints the next open row and five
+   candidate codes.
+2. Choose the candidate that matches the service. If two seem plausible, compare them
+   with `python -m goae get <code>`. If none fits, search once more with the medical
+   term: `python -m goae search "<term>"`.
+3. Save the result right away: `python -m goae set leistungen.csv <row> <code>`.
+   Use `?` as the code if nothing fits.
+4. Repeat until `next` prints "done", or stop after 30 rows.
+
+Rules: never open or print the whole CSV, and do not list or summarise earlier rows in
+your messages. The file is the record. At the end, only report how many rows you filled
+and which rows got "?".
+```
+
+Each row still adds about 150–250 tokens to the conversation (candidates, the agent's
+tool calls and reasoning), so the limit of 30 rows keeps a session well within a 32K
+window. Because the progress is in the file, a new session with the same prompt simply
+continues with the next open row. The script loop above avoids this growth entirely and
+is more reliable with small local models.
+
+No MCP configuration is needed for this: any agent that can run shell commands can use
+the CLI. MCP (`.mcp.json`, `opencode.json`) is only needed for agents without shell
+access, or if you prefer tool calls to shell commands; `next` and `set` are CLI-only.
 
 ## How the design was found
 
@@ -364,7 +406,7 @@ goae/ingest.py      parse the official text → SQLite with full-text indexes
 goae/db.py          search / get / price / check / rules, all returning short text
 goae/tools.py       tool definitions (terse set, plus the verbose set used as a baseline)
 goae/mcp_server.py  MCP server over stdio, no dependencies
-goae/fill.py        batch pipeline with optional OpenAI-compatible LLM
+goae/fill.py        batch pipeline (optional OpenAI-compatible LLM), next/set for agents
 goae/sources/       optional adapters for other sources (abrechnungsstelle.com)
 goae/__main__.py    CLI
 bench/              tasks, benchmark, results, history

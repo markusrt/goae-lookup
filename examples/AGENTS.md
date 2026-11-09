@@ -10,5 +10,6 @@ prints a few lines only.
 - `python -m goae check <code> <code> …` → exclusion rules between codes billed together.
 - `python -m goae rules <code>` → general rules that mention the code.
 
-To complete a table, do not keep results in the conversation: run
-`python -m goae fill <file.csv>` or write each row's result into the file right away.
+To complete a table, do not keep results in the conversation and do not open the file:
+loop `python -m goae next <file.csv>` → choose → `python -m goae set <file.csv> <row> <code>`
+(`?` if nothing fits) until `next` prints "done". Or run `python -m goae fill <file.csv>`.
