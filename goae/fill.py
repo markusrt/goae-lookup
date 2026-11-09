@@ -198,6 +198,10 @@ def set_rows(src: Path, assignments: list[str], col: str | None = None,
                 continue
             code = r["code"]
         rows[row - 1]["goae"] = code
+        if not rows[row - 1].get("goae_candidates"):  # same column as `fill` writes
+            cands = db.search(rows[row - 1][col], profile=db.Profile(k=5))
+            rows[row - 1]["goae_candidates"] = " ".join(
+                l.split("|", 1)[0] for l in cands.splitlines() if "|" in l)
         saved.append(f"{row}={code}")
     if saved:
         _write(output_path(src), rows, fields)

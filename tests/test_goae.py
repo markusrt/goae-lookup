@@ -179,6 +179,7 @@ class AgentMode(unittest.TestCase):
             self.assertEqual(path.read_text(encoding="utf-8"), original)  # input untouched
             result = list(csv.DictReader(output_path(path).open(encoding="utf-8")))
             self.assertEqual([r["goae"] for r in result], ["250", "651", "?"])
+            self.assertTrue(result[0]["goae_candidates"].startswith("1012 250"))
 
     def test_fill_with_llm_cmd(self):
         from goae.fill import fill

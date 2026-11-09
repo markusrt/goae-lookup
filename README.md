@@ -282,6 +282,8 @@ matters: it pays this overhead once per ten rows instead of once per row.
 Two more things keep the session small:
 
 * **Results go to a separate file** (`leistungen.goae.csv`); the input is never changed.
+  In agent mode the file gets `goae` and `goae_candidates`; `goae_confidence` stays empty,
+  because only the `fill` pipeline asks the model for a confidence value.
   Some agents re-insert a file into the conversation whenever a file they have read
   changes on disk (Claude Code does this as a "file updated" note with a diff). Writing
   to a file the agent has never opened avoids that.
