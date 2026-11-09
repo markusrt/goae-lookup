@@ -228,7 +228,7 @@ P = db.Profile
 ITERATIONS = [
     ("it0a", "Baseline: whole fee schedule in the prompt", FullDoc),
     ("it0b", "Baseline: generic docs RAG, top-5 chunks", RagChunks),
-    ("it1", "Naive tools: verbose schema, JSON, k=10, full text + notes, BM25",
+    ("it1", "Straightforward tool: verbose schema, JSON, k=10, full text + notes, BM25",
      lambda: Tools("naive tools", P(k=10, text_max=None, fmt="json", strategy="fts",
                                      synonyms="none", notes_in_search=True),
                    toolset="verbose", naive_get=True)),
@@ -296,10 +296,10 @@ def write_stats(results: list[dict], fill: dict) -> None:
         f, rag, naive = by["final"], by["it0b"], by["it1"]
         L.append("**Takeaways**\n")
         L.append(f"* One search costs ~{f['avg_find_out']} tokens instead of ~{rag['avg_find_out']:,} "
-                 f"(RAG chunks) or ~{naive['avg_find_out']} (naive JSON tool).")
+                 f"(RAG chunks) or ~{naive['avg_find_out']} (straightforward JSON tool).")
         L.append(f"* All 40 tasks in one conversation: {f['session']:,} tokens — "
                  f"{rag['session'] / f['session']:.0f}x less than RAG, {naive['session'] / f['session']:.0f}x less "
-                 "than the naive tool. (The agent's own system prompt comes on top of this.)")
+                 "than the straightforward tool. (The agent's own system prompt comes on top of this.)")
         L.append("* Output format and truncation (it1→it3) save the most tokens; ranking and synonyms "
                  "(it4→it5) win back the recall that truncation and a small k cost.")
         L.append(f"* Blind holdout accuracy was {by['it5']['holdout']} — the misses were colloquial terms "

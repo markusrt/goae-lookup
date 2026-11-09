@@ -1006,7 +1006,7 @@
     "session": 21785
    },
    "id": "it1",
-   "label": "Naive tools: verbose schema, JSON, k=10, full text + notes, BM25"
+   "label": "Straightforward tool: verbose schema, JSON, k=10, full text + notes, BM25"
   },
   {
    "name": "lines",

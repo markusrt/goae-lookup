@@ -8,7 +8,7 @@ Tasks: 23 dev (may be tuned on) + 17 holdout (not tuned on before it8), see [`be
 |---|---|---|---|---|---|---|---|---|---|
 | it0a | Baseline: whole fee schedule in the prompt | 23/23 | 17/17 | – | 136,999 | 136,999 | 136,999 | 136,999 | **no** |
 | it0b | Baseline: generic docs RAG, top-5 chunks | 12/23 | 5/17 | – | 1,235 | 1,155 | 1,831 | 49,389 | **no** |
-| it1 | Naive tools: verbose schema, JSON, k=10, full text + notes, BM25 | 17/23 | 13/17 | 583 | 530 | 678 | 1,416 | 21,785 | yes |
+| it1 | Straightforward tool: verbose schema, JSON, k=10, full text + notes, BM25 | 17/23 | 13/17 | 583 | 530 | 678 | 1,416 | 21,785 | yes |
 | it2 | Line format 'code\|points\|text' instead of JSON, notes only via get | 17/23 | 13/17 | 583 | 134 | 171 | 427 | 5,942 | yes |
 | it3 | Truncate text to 80 chars, k=5 | 15/23 | 11/17 | 583 | 57 | 62 | 137 | 2,881 | yes |
 | it4 | Hybrid ranking: BM25 prefix + character-trigram TF-IDF (compounds) | 19/23 | 12/17 | 583 | 76 | 88 | 137 | 3,632 | yes |
@@ -20,8 +20,8 @@ Tasks: 23 dev (may be tuned on) + 17 holdout (not tuned on before it8), see [`be
 
 **Takeaways**
 
-* One search costs ~89 tokens instead of ~1,155 (RAG chunks) or ~678 (naive JSON tool).
-* All 40 tasks in one conversation: 3,697 tokens — 13x less than RAG, 6x less than the naive tool. (The agent's own system prompt comes on top of this.)
+* One search costs ~89 tokens instead of ~1,155 (RAG chunks) or ~678 (straightforward JSON tool).
+* All 40 tasks in one conversation: 3,697 tokens — 13x less than RAG, 6x less than the straightforward tool. (The agent's own system prompt comes on top of this.)
 * Output format and truncation (it1→it3) save the most tokens; ranking and synonyms (it4→it5) win back the recall that truncation and a small k cost.
 * Blind holdout accuracy was 12/17 — the misses were colloquial terms (Blutzucker, MRT, Lungenfunktion, …). it8 shows the fix: one line per term in `data/synonyms.tsv`. Expect the same with new data: extend the synonym file.
 * k=3 (it7) would save another ~44 tokens per search, but two holdout hits already sit at rank 3, right at the edge; k=5 keeps headroom for unseen wording.
