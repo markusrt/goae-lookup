@@ -16,15 +16,16 @@ Tasks: 23 tuning tasks (`dev`, may be used to decide on changes) + 17 test tasks
 | it6 | Terse 4-tool schema, fees folded into goae_get | 23/23 | 12/17 | 245 | 86 | 88 | 162 | 3,676 | yes |
 | it7 | Probe: k=3, text 60 chars | 23/23 | 12/17 | 245 | 55 | 45 | 162 | 2,463 | yes |
 | it8 | Post-hoc: 6 synonyms for the failed test tasks (test tasks no longer unseen!) | 23/23 | 17/17 | 245 | 86 | 89 | 162 | 3,697 | yes |
-| final | Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema) | 23/23 | 17/17 | 245 | 86 | 89 | 162 | 3,697 | yes |
+| it9 | Flag query words that occur nowhere in the GOÄ text (from a real lab order list) | 23/23 | 17/17 | 245 | 87 | 90 | 162 | 3,735 | yes |
+| final | Default profile = it9 (k=5, 80 chars, hybrid, all synonyms, terse schema, flag) | 23/23 | 17/17 | 245 | 87 | 90 | 162 | 3,735 | yes |
 
 **Takeaways**
 
-* One search costs ~89 tokens instead of ~1,155 (RAG chunks) or ~678 (straightforward JSON tool).
-* All 40 tasks in one conversation: 3,697 tokens — 13x less than RAG, 6x less than the straightforward tool. (The agent's own system prompt comes on top of this.)
+* One search costs ~90 tokens instead of ~1,155 (RAG chunks) or ~678 (straightforward JSON tool).
+* All 40 tasks in one conversation: 3,735 tokens — 13x less than RAG, 6x less than the straightforward tool. (The agent's own system prompt comes on top of this.)
 * Output format and truncation (it1→it3) save the most tokens; ranking and synonyms (it4→it5) win back the recall that truncation and a small k cost.
 * Before it8 the test tasks scored 12/17 — the misses were colloquial terms (Blutzucker, MRT, Lungenfunktion, …). it8 shows the fix: one line per term in `data/synonyms.tsv`. Expect the same with new data: extend the synonym file.
-* k=3 (it7) would save another ~44 tokens per search, but two test-task hits already sit at rank 3, right at the edge; k=5 keeps headroom for unseen wording.
+* k=3 (it7) would save another ~45 tokens per search, but two test-task hits already sit at rank 3, right at the edge; k=5 keeps headroom for unseen wording.
 
 Notes on the baselines: *it0a* is always 'correct' because everything is in the prompt, but it does not fit a 32K (or 64K) window at all. *it0b* counts a hit when the right entry is somewhere in the returned chunks; the model would still have to read and compute (fees, exclusions) itself. Schema size of a real docs server is not measured.
 
@@ -33,7 +34,7 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 | Task | Group | Type | ✓ | Rank | Calls | Output tokens |
 |---|---|---|---|---|---|---|
 | d01 | tuning | find | ✓ | 2 | 1 | 77 |
-| d02 | tuning | find | ✓ | 1 | 1 | 91 |
+| d02 | tuning | find | ✓ | 1 | 1 | 98 |
 | d03 | tuning | find | ✓ | 1 | 1 | 103 |
 | d04 | tuning | find | ✓ | 1 | 1 | 82 |
 | d05 | tuning | find | ✓ | 1 | 1 | 87 |
@@ -42,12 +43,12 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 | d08 | tuning | find | ✓ | 1 | 1 | 91 |
 | d09 | tuning | find | ✓ | 1 | 1 | 61 |
 | d10 | tuning | find | ✓ | 1 | 1 | 82 |
-| d11 | tuning | find | ✓ | 2 | 1 | 83 |
+| d11 | tuning | find | ✓ | 2 | 1 | 89 |
 | d12 | tuning | find | ✓ | 1 | 1 | 74 |
 | d13 | tuning | find | ✓ | 1 | 1 | 59 |
-| d14 | tuning | find | ✓ | 1 | 1 | 101 |
+| d14 | tuning | find | ✓ | 1 | 1 | 107 |
 | d15 | tuning | find | ✓ | 1 | 1 | 103 |
-| d16 | tuning | find | ✓ | 1 | 1 | 95 |
+| d16 | tuning | find | ✓ | 1 | 1 | 101 |
 | d17 | tuning | price | ✓ |  | 1 | 52 |
 | d18 | tuning | price | ✓ |  | 1 | 58 |
 | d19 | tuning | price | ✓ |  | 1 | 162 |
@@ -55,7 +56,7 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 | d21 | tuning | check | ✓ |  | 1 | 66 |
 | d22 | tuning | check | ✓ |  | 1 | 28 |
 | d23 | tuning | rule | ✓ |  | 1 | 137 |
-| h01 | test | find | ✓ | 2 | 1 | 82 |
+| h01 | test | find | ✓ | 2 | 1 | 89 |
 | h02 | test | find | ✓ | 1 | 1 | 104 |
 | h03 | test | find | ✓ | 3 | 1 | 93 |
 | h04 | test | find | ✓ | 3 | 1 | 105 |
@@ -64,7 +65,7 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 | h07 | test | find | ✓ | 2 | 1 | 95 |
 | h08 | test | find | ✓ | 1 | 1 | 90 |
 | h09 | test | find | ✓ | 1 | 1 | 105 |
-| h10 | test | find | ✓ | 1 | 1 | 95 |
+| h10 | test | find | ✓ | 1 | 1 | 101 |
 | h11 | test | find | ✓ | 1 | 1 | 102 |
 | h12 | test | find | ✓ | 2 | 1 | 100 |
 | h13 | test | price | ✓ |  | 1 | 146 |
@@ -75,8 +76,8 @@ Notes on the baselines: *it0a* is always 'correct' because everything is in the 
 
 ## Filling a table (12 test-task rows)
 
-* **Agent session** (every search result stays in the conversation): 1,350 tokens of schema + tool output, growing linearly with rows.
-* **Pipeline** (`python -m goae fill`, one fresh LLM call per row): Ø 141 / max 159 tokens per call — constant, independent of table length.
+* **Agent session** (every search result stays in the conversation): 1,363 tokens of schema + tool output, growing linearly with rows.
+* **Pipeline** (`python -m goae fill`, one fresh LLM call per row): Ø 142 / max 159 tokens per call — constant, independent of table length.
 
 ## Loop history
 
@@ -90,3 +91,4 @@ Each entry is one turn of the optimisation loop, recorded when it was run (`--lo
 | 2026-11-09 19:03 | final | lungenfunktion synonym without generic word 'Untersuchung' | 23/23 | 17/17 | 88 | 3,665 |
 | 2026-11-09 19:04 | final | check: grouped output, surcharges allowed next to their base codes; synonym krankschreibung | 23/23 | 17/17 | 88 | 3,687 |
 | 2026-11-09 20:25 | final | parser: 67 Höchstwert codes (3541.H …) were missing; codes like 3562 resolve to 3562.H1 | 23/23 | 17/17 | 89 | 3,697 |
+| 2026-11-27 14:23 | final | it9: search flags query words that occur nowhere in the GOÄ text; synonyms for 'Spez IgE' | 23/23 | 17/17 | 90 | 3,735 |

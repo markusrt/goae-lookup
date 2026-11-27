@@ -74,6 +74,15 @@ class Query(unittest.TestCase):
             self.assertIn(code, codes, q)
             self.assertLessEqual(len(codes), 5)
 
+    def test_search_flags_words_missing_from_goae(self):
+        # From a real lab order list: an agent took the first line as the answer.
+        out = db.search("Spez IgE gg  Erbse").splitlines()
+        self.assertEqual(out[0], "nicht im GOÄ-Text: erbse")
+        self.assertEqual(out[1].split("|")[0], "3891")  # allergen-specific IgE, per allergen
+        self.assertIn("troponin", db.search("Troponin I").splitlines()[0])
+        # inflected forms of GOÄ words are not flagged ('Säuren' vs. 'Säureprofil')
+        self.assertTrue(db.search("Organische Säuren Urin").startswith("3783|"))
+
     def test_check(self):
         self.assertIn("✗", db.check(["1", "3"]))
         self.assertIn("✗", db.check(["5", "6"]))

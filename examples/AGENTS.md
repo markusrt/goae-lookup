@@ -6,6 +6,10 @@ prints a few lines only.
 - `python -m goae search "<service, German keywords>"` → `code|points|text`, top 5.
   If nothing fits, search again with the medical term (e.g. "Magnetresonanztomographie"
   instead of "MRT") rather than asking for more results.
+  The results are candidates, not answers: the first line is not automatically right,
+  so never take it in a script. A line `nicht im GOÄ-Text: troponin` means that word
+  occurs nowhere in the GOÄ; accept a code only if its text covers the service in
+  general terms (e.g. "je Allergen"), otherwise answer `?`.
 - `python -m goae get <code>` → full text, points, fees at 1.0x / threshold / max, own rules.
 - `python -m goae check <code> <code> …` → exclusion rules between codes billed together.
 - `python -m goae rules <code>` → general rules that mention the code.

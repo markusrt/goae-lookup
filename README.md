@@ -266,6 +266,8 @@ Find the GOÄ codes for examples/leistungen.csv. Work in batches:
    (#row and description), each with three candidate codes.
 2. For each row pick the matching candidate. Only if none fits, run
    `python -m goae search "<medical term>"` for that row; use ? if still nothing fits.
+   A line "nicht im GOÄ-Text: …" means that term is not in the GOÄ; accept only a
+   code whose text covers it in general terms, otherwise use ?.
 3. Save the whole batch with one command, e.g.
    `python -m goae set examples/leistungen.csv 1=250 2=651 3=?`
    It saves the answers and prints the next batch. Repeat 2–3 until it prints "done".
@@ -325,9 +327,33 @@ result; the last two columns count correctly answered tasks.
 | it5 | Synonym file for plain-language terms, built from failed tuning tasks | 88 | 23/23 | 12/17 |
 | it6 | Terse tool schema, 4 instead of 5 tools (583 → 245 tokens per request) | 88 | 23/23 | 12/17 |
 | it8 | 6 synonyms for the failed test tasks (from here on the test tasks are no longer unseen) | 89 | 23/23 | 17/17 |
+| it9 | First line names query words that occur nowhere in the GOÄ (see below) | 90 | 23/23 | 17/17 |
 
 The lesson: output format and size bring the largest savings, better ranking wins back
 the hits that truncation costs, and the remaining misses are vocabulary gaps.
+
+**What a real order list showed (it9).** A laboratory order list of about 130 rows, mostly
+special metabolic and antibody tests, was run with a small local model (Gemma 12B) in
+opencode over MCP. The agent did not decide anything: it wrote a script that took the
+first line of every search. Many of these tests are not in the official GOÄ at all, but a
+search always returns five codes with similar spelling, so the script wrote plausible
+nonsense: "Troponin I" → 4213 (exogenous poisons), "Spez IgE gg Erbse" → 5095 (skull
+X-ray in special projections, because "spez" matched "Spezialprojektionen"). Since it9 a
+search names such words in its first line, and the candidates follow:
+
+```text
+$ python -m goae search "Spez IgE gg Erbse"
+nicht im GOÄ-Text: erbse
+3891|250P|Allergenspezifisches Immunglobulin (z.B. IgE), Einzelallergentest (z.B. RAST)…
+…
+```
+
+A model now sees that "Erbse" is not listed and a general code ("je Allergen") is the
+best it can get; for "Troponin" no candidate fits and the row should stay open. Inflected
+forms are not flagged ("Säuren" finds "Säureprofil"). The benchmark only checks whether
+the right code is among the candidates, so it9 does not change the scores; it adds about
+one token per search. The other lesson is about the workflow: if an agent writes a loop,
+the model's choice must be inside it — that is what `fill` and `next`/`set` are for.
 
 **Where the synonyms come from.** Users write "Blutabnahme", "EKG" or "MRT"; the official
 text says "Blutentnahme", "Elektrokardiographische Untersuchung" and
@@ -337,7 +363,8 @@ the search adds that wording to the query. Every entry was added by hand after a
 failed: look at the task, look up the official text of the expected code, add one line.
 Ten entries came from failed tuning tasks (step it5) and one from the example table in
 `examples/`. Six more were added after test tasks failed (step it8, marked separately in
-the file; "CT" was added along with "MRT"). In a real deployment the best source
+the file; "CT" was added along with "MRT"), and three spellings of "Spez IgE" after the
+order list above. In a real deployment the best source
 is the searches your users run that find nothing; a domain expert or an LLM can propose
 candidates, but each entry should be checked against a failing example.
 
@@ -437,7 +464,9 @@ export GOAE_DB=data/goae-abrechnungsstelle.db        # use it for the MCP server
   Unlicense). German statutes are official works without copyright (§ 5 UrhG). A copy is
   in [`data/source/`](data/source/).
 * The official text has no analogue codes (BÄK Analogbewertungen), no commentary and no
-  case law, and the planned new GOÄ is not included.
+  case law, and the planned new GOÄ is not included. Many current laboratory tests
+  (e.g. Troponin, Aquaporin-4 antibodies) are therefore not in it; the search says so
+  ("nicht im GOÄ-Text") but cannot propose the analogue code.
 * `check` evaluates explicit exclusion rules ("nicht neben", "nur … im Zusammenhang
   mit"). Frequency limits ("im Behandlungsfall nur einmal") are shown by `get` and
   `rules`, but not enforced.

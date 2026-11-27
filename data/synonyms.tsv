@@ -23,3 +23,8 @@ thorax	Brustorgane
 mrt	Magnetresonanztomographie
 ct	Computertomographie
 vitamin d	25-Hydroxy-Vitamin D
+# --- added after a real laboratory order list: the agent took "Schädelteile in
+# Spezialprojektionen" (5095) for "Spez IgE gg Erbse", because "spez" matched "Spezial…"
+spez ige	Allergenspezifisches Immunglobulin Einzelallergentest
+spez. ige	Allergenspezifisches Immunglobulin Einzelallergentest
+spezifisches ige	Allergenspezifisches Immunglobulin Einzelallergentest

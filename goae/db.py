@@ -44,6 +44,7 @@ class Profile:
     strategy: str = "hybrid"    # 'fts', 'ngram' or 'hybrid'
     synonyms: str = "all"       # 'none', 'dev' (entries above the post-hoc marker) or 'all'
     notes_in_search: bool = False
+    flag_unknown: bool = True   # first line names query words that are not in the GOÄ
 
 
 DEFAULT = Profile()
@@ -131,14 +132,35 @@ def _synonyms(level: str = "all") -> dict[str, str]:
     return out
 
 
-def expand_query(q: str, level: str | bool = "all") -> str:
+def _matched_synonyms(q: str, level: str | bool = "all") -> dict[str, str]:
     if not level or level == "none":
-        return q
+        return {}
     syn = _synonyms("dev" if level == "dev" else "all")
     low = q.lower()
-    extra = [dst for src, dst in syn.items()
-             if re.search(rf"(?<![\wäöüß]){re.escape(src)}", low)]
+    return {src: dst for src, dst in syn.items()
+            if re.search(rf"(?<![\wäöüß]){re.escape(src)}", low)}
+
+
+def expand_query(q: str, level: str | bool = "all") -> str:
+    extra = list(_matched_synonyms(q, level).values())
     return q + (" " + " ".join(extra) if extra else "")
+
+
+def unknown_words(q: str, level: str | bool = "all", db_path: str | None = None) -> list[str]:
+    """Query words that occur nowhere in the fee schedule and are not covered by a
+    synonym, e.g. 'troponin'. The ranking still returns five codes for such a query
+    (similar spelling), so the caller has to be told that none of them names it."""
+    con = connect(db_path)
+    covered = {w for src in _matched_synonyms(q, level) for w in _words(src)}
+    out = []
+    for w in _words(q):
+        if w in out or w.isdigit() or any(w.startswith(c) for c in covered):
+            continue
+        stem = re.sub(r"(en|er|es|e|n|s)$", "", w) if len(w) > 5 else w  # 'Säuren' -> 'säur'
+        if not con.execute("SELECT 1 FROM ziffer_fts WHERE ziffer_fts MATCH ? LIMIT 1",
+                           (f'"{stem}"*',)).fetchone():
+            out.append(w)
+    return out
 
 
 def _grams(s: str, n: int = 3) -> list[str]:
@@ -241,6 +263,9 @@ def search(q: str, k: int | None = None, section: str | None = None,
             out.append(d)
         return json.dumps(out, ensure_ascii=False, indent=2)
     lines = []
+    unknown = unknown_words(q, profile.synonyms, db_path) if profile.flag_unknown else []
+    if unknown:
+        lines.append(f"nicht im GOÄ-Text: {', '.join(unknown)}")
     for r in rows:
         pts = f"{r['points']}P" if r["points"] is not None else "%"
         lines.append(f"{r['code']}|{pts}|{_trunc(r['text'], profile.text_max)}")
