@@ -435,9 +435,9 @@ Requirements
 
 By default the database is built from the official GOÄ text. As an example of a
 different source, `goae/sources/abrechnungsstelle.py` builds it from the website
-<https://abrechnungsstelle.com/goae/ziffern/>, which adds analogue codes and an exclusion
-list per code. The website's content is not part of this repository; it is downloaded
-when you build:
+<https://abrechnungsstelle.com/goae/ziffern/>, which adds about 120 analogue codes
+(e.g. A3732 Troponin-T-Schnelltest) and an exclusion list per code. The website's
+content is not part of this repository; it is downloaded when you build:
 
 ```bash
 python -m goae build --source abrechnungsstelle      # → data/goae-abrechnungsstelle.db
@@ -445,10 +445,14 @@ python -m goae --db data/goae-abrechnungsstelle.db search "Ruhe-EKG"
 export GOAE_DB=data/goae-abrechnungsstelle.db        # use it for the MCP server / agents
 ```
 
-* Downloads 14 pages once (respects robots.txt, one request every 3 s), caches the HTML
+* Downloads 15 pages once: the 14 code ranges and the section page with the analogue
+  codes (respects robots.txt, one request every 3 s), caches the HTML
   in `data/cache/` and writes a separate database. Both are git-ignored. `--refresh`
   downloads again.
-* Takes service text, points, notes and exclusion codes per entry. The exclusion lists
+* Takes service text, points, notes and exclusion codes per entry. Most laboratory codes
+  are listed as one group ("4150-4182: Untersuchung mittels Ligandenassay", 250 points)
+  with a table row per code ("4179 Theophyllin"); each row becomes its own entry. The
+  result contains every code of the official text. The exclusion lists
   are converted into rule sentences, so `check` uses them as well. Sections, fee
   factors and general rules still come from the official text.
 * Tested offline against a hand-written HTML fixture (`tests/fixtures/`). If the website
@@ -466,7 +470,8 @@ export GOAE_DB=data/goae-abrechnungsstelle.db        # use it for the MCP server
 * The official text has no analogue codes (BÄK Analogbewertungen), no commentary and no
   case law, and the planned new GOÄ is not included. Many current laboratory tests
   (e.g. Troponin, Aquaporin-4 antibodies) are therefore not in it; the search says so
-  ("nicht im GOÄ-Text") but cannot propose the analogue code.
+  ("nicht im GOÄ-Text") but cannot propose the analogue code. The abrechnungsstelle
+  source (above) adds about 120 analogue codes, only 9 of them for laboratory tests.
 * `check` evaluates explicit exclusion rules ("nicht neben", "nur … im Zusammenhang
   mit"). Frequency limits ("im Behandlungsfall nur einmal") are shown by `get` and
   `rules`, but not enforced.
