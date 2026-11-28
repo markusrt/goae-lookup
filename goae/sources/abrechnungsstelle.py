@@ -10,8 +10,15 @@ is one grid item with:
 * optional ``<p>`` paragraphs with the billing notes
 * optional ``Ausschlussziffern:`` followed by links ``GOÄ <code>``
 
+Codes that share one text and point value (most of the laboratory section) are
+one *group* item instead: ``GOÄ-Ziffer: 4150-4182``, the shared text in the
+``<h3>``, and a table (``repeater-row``) with one row per code (``4179 |
+Theophyllin``), sometimes with the row's own fees. Each row becomes an entry.
+Analogue codes (``A3732``) are not on the range pages but on the section page
+``/goae/goae-abschnitt/analog/``, which uses the same item layout.
+
 The site's content is NOT stored in this repository. Running this module
-downloads the 14 pages once (politely: robots.txt is checked, one request
+downloads the 15 pages once (politely: robots.txt is checked, one request
 every few seconds, raw HTML cached under ``data/cache/``, which is git-ignored)
 and writes a separate database, ``data/goae-abrechnungsstelle.db``.
 Check the site's terms before using the data beyond your own purposes.
@@ -34,12 +41,13 @@ import urllib.robotparser
 from html.parser import HTMLParser
 from pathlib import Path
 
-from ..ingest import DEFAULT_SOURCE, ROOT, Entry, assign_sections, parse, write_db
+from ..ingest import DEFAULT_SOURCE, PUNKTWERT_EUR, ROOT, Entry, assign_sections, parse, write_db
 
 BASE = "https://abrechnungsstelle.com"
 PAGES = [
     "1-498", "500-887", "1001-1386", "1400-1860", "2000-2358", "2380-2732", "2750-3097",
     "3120-3321", "3500-3615", "3630h-4014", "4020-4469", "4500-4787", "4800-5380", "5400-6018",
+    "goae-abschnitt/analog",
 ]
 CACHE = ROOT / "data" / "cache" / "abrechnungsstelle"
 DEFAULT_DB = ROOT / "data" / "goae-abrechnungsstelle.db"
@@ -56,7 +64,7 @@ def fetch_pages(refresh: bool = False, pages: list[str] = PAGES) -> list[Path]:
     paths = []
     for i, slug in enumerate(pages):
         url = f"{BASE}/goae/{slug}/"
-        path = CACHE / f"{slug}.html"
+        path = CACHE / f"{slug.replace('/', '_')}.html"
         paths.append(path)
         if path.exists() and not refresh:
             continue
@@ -76,10 +84,13 @@ def fetch_pages(refresh: bool = False, pages: list[str] = PAGES) -> list[Path]:
 class ItemParser(HTMLParser):
     """Turns a range page into one token list per grid item.
 
-    Tokens are (kind, text): 'text', 'h3', 'p' (a whole paragraph) or 'a'
-    (link text). Matching is done on visible text and the stable structure
-    (grid item, h3, p, a), not on the theme's generated CSS class names.
+    Tokens are (kind, text): 'text', 'h3', 'p' (a whole paragraph), 'a'
+    (link text) or, inside a group table, 'row' (start of a row) and the row's
+    fields 'katalog-ziffer', 'katalog-text', 'katalog_einfachsatz'. Matching is
+    done on visible text and the stable structure (grid item, h3, p, a, the
+    table's field names), not on the theme's generated CSS class names.
     """
+    FIELDS = ("katalog-ziffer", "katalog-text", "katalog_einfachsatz")
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -88,6 +99,7 @@ class ItemParser(HTMLParser):
         self._item_depth: int | None = None
         self._in = {"h3": 0, "p": 0, "a": 0, "script": 0, "style": 0}
         self._buf = {"h3": [], "p": []}
+        self._field: tuple[str, int] | None = None  # (field name, div depth)
 
     @property
     def _cur(self):
@@ -99,6 +111,12 @@ class ItemParser(HTMLParser):
             if self._item_depth is None and "w-grid-item-h" in cls.split():
                 self._item_depth = self._div_depth
                 self.items.append([])
+            elif self._cur is not None and "repeater-row" in cls.split():
+                self._cur.append(("row", ""))
+            else:
+                name = next((f for f in self.FIELDS if f in cls.split()), None)
+                if name and self._cur is not None:
+                    self._field = (name, self._div_depth)
             self._div_depth += 1
         elif tag in self._in:
             self._in[tag] += 1
@@ -108,6 +126,8 @@ class ItemParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "div":
             self._div_depth -= 1
+            if self._field and self._div_depth == self._field[1]:
+                self._field = None
             if self._item_depth is not None and self._div_depth == self._item_depth:
                 self._item_depth = None
         elif tag in self._in and self._in[tag]:
@@ -126,7 +146,8 @@ class ItemParser(HTMLParser):
                 return
         text = data.strip()
         if text:
-            self._cur.append(("a" if self._in["a"] else "text", text))
+            kind = self._field[0] if self._field else ("a" if self._in["a"] else "text")
+            self._cur.append((kind, text))
 
 
 def site_code(raw: str) -> str:
@@ -151,19 +172,26 @@ def _exclusion_sentence(code: str, excl: list[str]) -> str:
     return f"{subject} ist neben {' sowie '.join(parts)} nicht berechnungsfähig (Ausschlussziffern laut Quelle)."
 
 
-def parse_item(tokens: list[tuple[str, str]]) -> dict | None:
+def parse_item(tokens: list[tuple[str, str]]) -> dict | list[dict] | None:
+    """One entry, or a list of entries for a group item."""
     code = title = None
     points = None
-    notes, excl = [], []
+    notes, excl, rows = [], [], []
     in_excl = False
     for i, (kind, text) in enumerate(tokens):
+        if kind == "row":
+            rows.append({})
+            continue
+        if kind.startswith("katalog") and rows:
+            rows[-1][kind] = (rows[-1].get(kind, "") + " " + text).strip()
+            continue
         if text.startswith("GOÄ-Ziffer:"):
             rest = text.split(":", 1)[1].strip()
             code = rest or (tokens[i + 1][1] if i + 1 < len(tokens) else None)
         elif kind == "h3":
             title = re.sub(r"^GOÄ\s+[^:]+:\s*", "", text)
-        elif text == "Punktzahl" and i and re.fullmatch(r"\d+", tokens[i - 1][1]):
-            points = int(tokens[i - 1][1])
+        elif text == "Punktzahl" and i and re.fullmatch(r"\d{1,3}(\.\d{3})*", tokens[i - 1][1]):
+            points = int(tokens[i - 1][1].replace(".", ""))  # '1.200'
         elif text.startswith("Ausschlussziffern"):
             in_excl = True
         elif kind == "a" and in_excl:
@@ -176,22 +204,44 @@ def parse_item(tokens: list[tuple[str, str]]) -> dict | None:
         return None
     code = site_code(code)
     title = title.replace("–", "-")
-    if excl:
-        notes.append(_exclusion_sentence(code, excl))
-    return {"code": code, "text": title, "points": points, "notes": notes}
+    if not rows:
+        if excl:
+            notes.append(_exclusion_sentence(code, excl))
+        return {"code": code, "text": title, "points": points, "notes": notes}
+    # group item: one entry per table row, sharing the title, points and notes
+    out, title = [], title.strip(" -")  # '… Bezugskurve -' before the parenthesis
+    for r in rows:
+        rcode, rtext = site_code(r.get("katalog-ziffer", "")), r.get("katalog-text", "")
+        if not rcode or not rtext:
+            continue
+        rpoints = points
+        fee = re.fullmatch(r"([\d.]+),(\d\d)\s*€",
+                           r.get("katalog_einfachsatz", "").replace("\xa0", " "))
+        if fee:  # the row's own fee at 1.0x -> points
+            eur = float(fee.group(1).replace(".", "") + "." + fee.group(2))
+            rpoints = round(eur / PUNKTWERT_EUR)
+        # 'Theophyllin (Untersuchung mittels Ligandenassay …)' like the official text;
+        # a row that continues the title ('im indirekten Coombstest …') follows it
+        text = f"{title} {rtext}" if rtext[:1].islower() else f"{rtext} ({title})"
+        rnotes = notes + ([_exclusion_sentence(rcode, excl)] if excl else [])
+        out.append({"code": rcode, "text": text, "points": rpoints, "notes": rnotes})
+    return out
 
 
 def parse_pages(paths: list[Path]) -> list[Entry]:
-    entries, seq = [], 0
+    entries, seq, seen = [], 0, set()
     for path in paths:
         p = ItemParser()
         p.feed(path.read_text(encoding="utf-8", errors="replace"))
         for tokens in p.items:
             item = parse_item(tokens)
-            if item:
+            for it in (item if isinstance(item, list) else [item] if item else []):
+                if it["code"] in seen:  # e.g. a row that also has its own item
+                    continue
+                seen.add(it["code"])
                 seq += 1
-                entries.append(Entry(code=item["code"], text=item["text"], points=item["points"],
-                                     seq=seq, notes=item["notes"]))
+                entries.append(Entry(code=it["code"], text=it["text"], points=it["points"],
+                                     seq=seq, notes=it["notes"]))
     return entries
 
 

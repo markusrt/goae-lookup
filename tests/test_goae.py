@@ -213,8 +213,18 @@ class AbrechnungsstelleAdapter(unittest.TestCase):
         fixture = ROOT / "tests" / "fixtures" / "abrechnungsstelle_sample.html"
         entries = src.parse_pages([fixture])
         by = {e.code: e for e in entries}
-        self.assertEqual(list(by), ["1", "2", "K 1", "3630.H", "A3754"])
+        self.assertEqual(list(by), ["1", "2", "K 1", "3630.H", "A3754", "A707",
+                                    "4150", "4179", "3985"])
         self.assertEqual(by["1"].points, 80)
+        self.assertEqual(by["A707"].points, 1200)              # '1.200'
+        # group item: one entry per row, shared title and points
+        self.assertEqual(by["4179"].points, 250)
+        self.assertEqual(by["4179"].text, "Theophyllin (Untersuchung mittels Ligandenassay - "
+                                          "gegebenenfalls einschließlich Doppelbestimmung)")
+        # row with its own fee (11,66 € at 1.0x) and a title it continues
+        self.assertEqual(by["3985"].points, 200)
+        self.assertTrue(by["3985"].text.startswith("Bestimmung weiterer Blutgruppenmerkmale im indirekten"))
+        self.assertIn("Merkmale anzugeben", by["3985"].notes[0])
         self.assertEqual(by["1"].text, "Beratung - auch mittels Fernsprecher")
         self.assertIn("Nummern 2, 3", by["1"].notes[0])
         self.assertIn("einer Inanspruchnahme des Arztes nicht zusammen mit anderen Gebühren", by["2"].notes[0])
@@ -227,7 +237,8 @@ class AbrechnungsstelleAdapter(unittest.TestCase):
             with tempfile.TemporaryDirectory() as d:
                 path = Path(d) / "site.db"
                 stats = src.build(path)
-                self.assertEqual(stats["entries"], 5)
+                self.assertEqual(stats["entries"], 9)
+                self.assertTrue(db.search("Theophyllin", db_path=str(path)).startswith("4179|"))
                 self.assertIn("✗", db.check(["1", "2"], db_path=str(path)))
                 self.assertIn("✗", db.check(["1", "K 1"], db_path=str(path)))
                 self.assertIn("Fernsprecher", db.search("Telefon Beratung", db_path=str(path)))
