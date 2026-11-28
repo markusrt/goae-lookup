@@ -3361,7 +3361,7 @@
    "label": "Post-hoc: 6 synonyms for the failed test tasks (test tasks no longer unseen!)"
   },
   {
-   "name": "default",
+   "name": "flag unknown words",
    "schema": 245,
    "tasks": {
     "d01": {
@@ -3378,7 +3378,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 91
+     "out": 98
     },
     "d03": {
      "split": "dev",
@@ -3450,7 +3450,7 @@
      "ok": true,
      "rank": 2,
      "calls": 1,
-     "out": 83
+     "out": 89
     },
     "d12": {
      "split": "dev",
@@ -3474,7 +3474,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 101
+     "out": 107
     },
     "d15": {
      "split": "dev",
@@ -3490,7 +3490,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 95
+     "out": 101
     },
     "d17": {
      "split": "dev",
@@ -3554,7 +3554,7 @@
      "ok": true,
      "rank": 2,
      "calls": 1,
-     "out": 82
+     "out": 89
     },
     "h02": {
      "split": "holdout",
@@ -3626,7 +3626,7 @@
      "ok": true,
      "rank": 1,
      "calls": 1,
-     "out": 95
+     "out": 101
     },
     "h11": {
      "split": "holdout",
@@ -3688,19 +3688,355 @@
    "summary": {
     "dev": "23/23",
     "holdout": "17/17",
-    "avg_out": 86,
+    "avg_out": 87,
     "max_out": 162,
-    "avg_find_out": 89,
-    "session": 3697
+    "avg_find_out": 90,
+    "session": 3735
+   },
+   "id": "it9",
+   "label": "Flag query words that occur nowhere in the GOÄ text (from a real lab order list)"
+  },
+  {
+   "name": "default",
+   "schema": 245,
+   "tasks": {
+    "d01": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 77
+    },
+    "d02": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 98
+    },
+    "d03": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d04": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d05": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 87
+    },
+    "d06": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "d07": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "d08": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 91
+    },
+    "d09": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "d10": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 82
+    },
+    "d11": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 89
+    },
+    "d12": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 74
+    },
+    "d13": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 59
+    },
+    "d14": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 107
+    },
+    "d15": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 103
+    },
+    "d16": {
+     "split": "dev",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "d17": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 52
+    },
+    "d18": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 58
+    },
+    "d19": {
+     "split": "dev",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 162
+    },
+    "d20": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 57
+    },
+    "d21": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 66
+    },
+    "d22": {
+     "split": "dev",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 28
+    },
+    "d23": {
+     "split": "dev",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 137
+    },
+    "h01": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 89
+    },
+    "h02": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 104
+    },
+    "h03": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 93
+    },
+    "h04": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 3,
+     "calls": 1,
+     "out": 105
+    },
+    "h05": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 73
+    },
+    "h06": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 61
+    },
+    "h07": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 95
+    },
+    "h08": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 90
+    },
+    "h09": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 105
+    },
+    "h10": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 101
+    },
+    "h11": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 1,
+     "calls": 1,
+     "out": 102
+    },
+    "h12": {
+     "split": "holdout",
+     "type": "find",
+     "ok": true,
+     "rank": 2,
+     "calls": 1,
+     "out": 100
+    },
+    "h13": {
+     "split": "holdout",
+     "type": "price",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 146
+    },
+    "h14": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 36
+    },
+    "h15": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 50
+    },
+    "h16": {
+     "split": "holdout",
+     "type": "check",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 39
+    },
+    "h17": {
+     "split": "holdout",
+     "type": "rule",
+     "ok": true,
+     "rank": null,
+     "calls": 1,
+     "out": 133
+    }
+   },
+   "summary": {
+    "dev": "23/23",
+    "holdout": "17/17",
+    "avg_out": 87,
+    "max_out": 162,
+    "avg_find_out": 90,
+    "session": 3735
    },
    "id": "final",
-   "label": "Default profile = it8 (k=5, 80 chars, hybrid, all synonyms, terse schema)"
+   "label": "Default profile = it9 (k=5, 80 chars, hybrid, all synonyms, terse schema, flag)"
   }
  ],
  "fill": {
   "rows": 12,
-  "agent_session_tool_tokens": 1350,
+  "agent_session_tool_tokens": 1363,
   "pipeline_max_prompt": 159,
-  "pipeline_avg_prompt": 141
+  "pipeline_avg_prompt": 142
  }
 }
